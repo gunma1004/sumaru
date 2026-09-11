@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 interface PageProps {
@@ -8,7 +11,6 @@ interface PageProps {
   }>;
 }
 
-// 🌐 영문 지역 코드를 한글로 변환
 function getRegionFullName(region: string): string {
   switch (region.toLowerCase()) {
     case "seoul": return "서울";
@@ -18,7 +20,7 @@ function getRegionFullName(region: string): string {
   }
 }
 
-const shopList = [
+const initialShopList = [
   { id: 1, name: "한국미녀홈타이", desc: "수도권 주요 지역 25분 내 신속 방문! 실시간 만족도 1위", phone: "0507-1280-3303", price: "70,000원부터~", image: "/shop1.jpg" },
   { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 최고급 프라이빗 테라피", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
   { id: 3, name: "예쁜걸홈타이", desc: "칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케어", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
@@ -26,10 +28,21 @@ const shopList = [
   { id: 5, name: "한국골든테라피", desc: "선입금 없는 100% 후불제 안심 이용 서비스", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
 ];
 
-export default async function DongPage({ params }: PageProps) {
-  const resolvedParams = await params;
-  const { region, district, dong } = resolvedParams;
+export default function DongPage({ params }: PageProps) {
+  const [resolvedParams, setResolvedParams] = useState<{ region: string; district: string; dong: string } | null>(null);
+  const [shuffledShops, setShuffledShops] = useState(initialShopList);
 
+  useEffect(() => {
+    params.then((p) => {
+      setResolvedParams(p);
+      // 🌟 새로고침할 때마다 동 페이지 업체 순서도 랜덤 셔플
+      setShuffledShops([...initialShopList].sort(() => Math.random() - 0.5));
+    });
+  }, [params]);
+
+  if (!resolvedParams) return null;
+
+  const { region, district, dong } = resolvedParams;
   const regionName = getRegionFullName(region);
   const decodedDistrict = decodeURIComponent(district || "");
   const decodedDong = dong && dong !== "all" ? decodeURIComponent(dong) : "";
@@ -38,7 +51,6 @@ export default async function DongPage({ params }: PageProps) {
 
   return (
     <div className="bg-[#050505] text-gray-100 min-h-screen flex flex-col font-sans pb-24">
-      {/* 상단 헤더 */}
       <header className="sticky top-0 z-50 bg-[#050505]/85 backdrop-blur-xl border-b border-amber-500/20 px-4 py-3.5 shadow-[0_4px_20px_rgba(245,158,11,0.1)]">
         <div className="max-w-4xl mx-auto flex justify-between items-center">
           <Link href="/" className="flex items-center gap-3 group">
@@ -63,9 +75,8 @@ export default async function DongPage({ params }: PageProps) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {shopList.map((shop) => (
+          {shuffledShops.map((shop) => (
             <div key={shop.id} className="bg-gradient-to-br from-[#161619] to-[#101013] border border-amber-500/25 hover:border-amber-400 rounded-2xl p-4 flex gap-4 items-center shadow-lg transition-all group relative">
-              {/* 각 샵 상세 페이지로 연결되는 링크 */}
               <Link href={`/${region}/${district}/${dong}/${shop.id}`} className="absolute inset-0 z-10" aria-label={`${shop.name} 상세보기`} />
               <img src={shop.image} alt={shop.name} className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border border-amber-500/30" />
               <div className="flex-1 min-w-0">

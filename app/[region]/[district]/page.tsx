@@ -37,7 +37,6 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   const dongName = resolvedSearchParams.dong ? decodeURIComponent(resolvedSearchParams.dong) : "";
   const districtName = decodeURIComponent(district);
   const regionName = getRegionKoreanName(region);
-  const regionFullName = getRegionFullName(region);
 
   const locationKeyword = `${regionName} ${districtName} ${dongName}`.trim();
   const simpleLocation = dongName ? `${districtName} ${dongName}` : districtName;
