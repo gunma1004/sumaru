@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-// (regionData 및 initialLocalShops 데이터는 기존과 동일하게 유지)
+// 서울, 경기, 인천 지역 및 구·동 데이터
 const regionData: Record<string, { name: string; districts: Record<string, { name: string; dongs: string[] }> }> = {
   seoul: {
     name: "서울특별시",
@@ -104,11 +104,11 @@ const regionData: Record<string, { name: string; districts: Record<string, { nam
 };
 
 const initialLocalShops = [
-  { id: 1, name: "🔥 한국미녀홈타이", desc: "전국 주요지역 신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
-  { id: 2, name: "✨ 너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피 서비스", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
-  { id: 3, name: "💎 예쁜걸홈타이", desc: "칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케어", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
-  { id: 4, name: "🌟20대퀸즈홈테라피", desc: "전문 힐러들의 맞춤형 VIP 피로회복 특화 프로그램", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
-  { id: 5, name: "👑 한국골든테라피", desc: "선입금 없는 100% 후불제! 수도권 주요지역 25분 내 도착", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
+  { id: 1, name: "투데이쿡 프리미엄 홈타이", desc: "서울 경기 인천 주요 지역 신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
+  { id: 2, name: "투데이쿡 힐링 테라피", desc: "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피 서비스", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
+  { id: 3, name: "투데이쿡 바디케어", desc: "신속 정확한 방문 안내, 철저한 위생 관리와 럭셔리 케어", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
+  { id: 4, name: "투데이쿡 스페셜 테라피", desc: "전문 관리사의 맞춤형 피로회복 특화 프로그램", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
+  { id: 5, name: "투데이쿡 안심 홈케어", desc: "수도권 주요 지역 맞춤형 바디케어 서비스 안내", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
 ];
 
 export default function MainClientUI() {
@@ -117,7 +117,7 @@ export default function MainClientUI() {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedDong, setSelectedDong] = useState("");
   
-  // 💡 모드 선택 상태 추가: "normal" (기본 방문케어) vs "healing" (출장 힐링 마사지)
+  // 검색 모드 선택 상태 ("healing": 출장 힐링 마사지 vs "normal": 일반 방문케어)
   const [searchMode, setSearchMode] = useState<"normal" | "healing">("healing");
 
   const [shuffledShops, setShuffledShops] = useState(initialLocalShops);
@@ -146,7 +146,7 @@ export default function MainClientUI() {
     const districtObj = regionData[selectedRegion]?.districts[selectedDistrict];
     const districtName = districtObj ? districtObj.name : selectedDistrict;
     
-    // 💡 모드에 따라 이동할 경로 분기 (일반 vs 힐링 키워드 페이지)
+    // 모드에 따라 이동할 경로 분기
     const prefix = searchMode === "healing" ? `/healing/${selectedRegion}` : `/${selectedRegion}`;
     const baseUrl = `${prefix}/${encodeURIComponent(districtName)}`;
     
@@ -161,54 +161,58 @@ export default function MainClientUI() {
   const currentDongs = selectedDistrict && currentDistricts[selectedDistrict] ? currentDistricts[selectedDistrict].dongs : [];
 
   return (
-    <div className="bg-[#050505] text-gray-100 min-h-screen flex flex-col font-sans selection:bg-amber-500 selection:text-black">
+    <div className="bg-[#0b0b0f] text-gray-100 min-h-screen flex flex-col font-sans selection:bg-amber-400 selection:text-black relative overflow-hidden">
       
-      <main className="max-w-4xl mx-auto px-4 py-8 w-full flex-1 space-y-12">
+      {/* 🌟 배경에 화사하고 은은한 앰버/골드빛 조명 글로우 효과 추가 (어두워 보이지 않고 CTR을 높이도록 입체감 부여) */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[450px] bg-gradient-to-b from-amber-500/15 via-yellow-500/5 to-transparent rounded-full blur-3xl pointer-events-none z-0"></div>
+
+      <main className="max-w-4xl mx-auto px-4 py-8 w-full flex-1 space-y-12 relative z-10">
         
-        {/* 상단 메인 배너 */}
+        {/* 상단 메인 배너 (밝고 화사한 그라데이션 오버레이 적용) */}
         <section className="text-center my-2">
-          <div className="overflow-hidden rounded-3xl border border-amber-500/30 shadow-[0_0_40px_rgba(245,158,11,0.15)] relative h-60 md:h-80 flex items-center justify-center p-6">
+          <div className="overflow-hidden rounded-3xl border-2 border-amber-500/40 shadow-[0_0_50px_rgba(245,158,11,0.25)] relative h-64 md:h-84 flex items-center justify-center p-6 group">
             <div className="absolute inset-0 z-0">
-              <img src="/banner.jpg" alt="메인 힐링 배너" className="w-full h-full object-cover filter brightness-[0.35] scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+              <img src="/banner.jpg" alt="메인 힐링 배너" className="w-full h-full object-cover filter brightness-[0.5] contrast-[1.1] group-hover:scale-105 transition-transform duration-700" />
+              {/* 어두운 느낌을 덜어내고 앰버빛 생기를 불어넣는 화사한 그라데이션 */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-amber-500/10"></div>
             </div>
             
-            <div className="relative z-10 space-y-3">
-              <span className="inline-block px-4 py-1 rounded-full bg-amber-500 text-black font-extrabold text-xs tracking-widest shadow-lg animate-bounce">
-                ✨ 100% 후불제 안심 예약 플랫폼
+            <div className="relative z-10 space-y-3.5 max-w-xl mx-auto">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-black font-black text-xs tracking-widest shadow-[0_0_20px_rgba(245,158,11,0.5)] animate-bounce">
+                ✨ 서울 경기 인천 프리미엄 힐링 플랫폼
               </span>
-              <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight drop-shadow-lg">
-                전국 주요 도시 <span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">25분 내 신속 방문 케어</span>
+              <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+                수도권 전 지역 <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-300 bg-clip-text text-transparent">맞춤형 방문 홈케어 안내</span>
               </h1>
-              <p className="text-gray-200 text-xs md:text-sm font-medium max-w-lg mx-auto drop-shadow">
-                엄선된 베테랑 관리사의 맞춤형 힐링 피로회복! 지금 바로 내 주변 휴식의정원 제휴샵을 확인하세요.
+              <p className="text-gray-200 text-xs md:text-sm font-medium drop-shadow">
+                엄선된 베테랑 관리사의 맞춤형 피로회복 서비스! 지금 바로 투데이쿡 제휴샵을 확인하세요.
               </p>
             </div>
           </div>
         </section>
 
-        {/* 제휴업체 리스트 섹션 (기존 코드 유지) */}
+        {/* 제휴업체 리스트 섹션 */}
         <section className="space-y-6">
           <div className="text-center mb-6">
-            <p className="text-xs text-amber-400 font-bold tracking-widest uppercase">BEST RECOMMENDED SHOPS</p>
+            <p className="text-xs text-amber-400 font-extrabold tracking-widest uppercase">BEST RECOMMENDED SHOPS</p>
             <h2 className="text-xl md:text-2xl font-black text-white mt-1">
-              🏆 휴식의정원 추천 프리미엄 제휴업체
+              🏆 투데이쿡 추천 프리미엄 제휴업체
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {shuffledShops.map((lShop) => (
-              <div key={lShop.id} className="bg-[#121214] border border-amber-500/20 hover:border-amber-500/60 rounded-2xl p-4 flex gap-4 items-center shadow-md transition-all group relative">
+              <div key={lShop.id} className="bg-gradient-to-br from-[#161619] to-[#101013] border border-amber-500/25 hover:border-amber-400 rounded-2xl p-4 flex gap-4 items-center shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:shadow-[0_0_25px_rgba(245,158,11,0.2)] transition-all group relative">
                 <Link href={`/shop/${lShop.id}`} className="absolute inset-0 z-10" aria-label={`${lShop.name} 상세페이지 보기`} />
-                <img src={lShop.image} alt={lShop.name} className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border border-white/10 group-hover:scale-105 transition-transform" />
+                <img src={lShop.image} alt={lShop.name} className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border border-amber-500/30 group-hover:scale-105 transition-transform" />
                 <div className="flex-1 min-w-0">
                   <h3 className="font-extrabold text-sm md:text-base text-white truncate group-hover:text-amber-400 transition-colors">
                     {lShop.name}
                   </h3>
-                  <p className="text-[11px] text-gray-400 mt-1 line-clamp-2">{lShop.desc}</p>
+                  <p className="text-[11px] text-gray-300 mt-1 line-clamp-2">{lShop.desc}</p>
                   <div className="mt-2.5 flex items-center justify-between">
-                    <span className="text-xs font-black text-amber-400">{lShop.price}</span>
-                    <a href={`tel:${lShop.phone}`} className="bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-xs px-3.5 py-1.5 rounded-xl shadow transition-colors relative z-20">
+                    <span className="text-xs font-black text-amber-300">{lShop.price}</span>
+                    <a href={`tel:${lShop.phone}`} className="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-black text-xs px-3.5 py-1.5 rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all relative z-20">
                       전화연결
                     </a>
                   </div>
@@ -218,40 +222,40 @@ export default function MainClientUI() {
           </div>
         </section>
 
-        {/* 💡 지역 선택 및 검색 모드 선택 박스 */}
-        <section className="pt-6 border-t border-white/10">
-          <div className="bg-gradient-to-b from-[#18181b] to-[#0f0f11] border-2 border-amber-500/40 p-6 rounded-3xl max-w-xl mx-auto shadow-[0_10px_30px_rgba(0,0,0,0.8)] text-left relative overflow-hidden">
+        {/* 지역 선택 및 검색 모드 선택 박스 (배경을 화사하고 입체감 있게 개선) */}
+        <section className="pt-4">
+          <div className="bg-gradient-to-b from-[#1c1c22] to-[#121217] border-2 border-amber-500/50 p-6 md:p-8 rounded-3xl max-w-xl mx-auto shadow-[0_15px_40px_rgba(0,0,0,0.9),0_0_30px_rgba(245,158,11,0.15)] text-left relative overflow-hidden">
             
-            <div className="flex items-center justify-between mb-4">
-              <label className="text-xs text-amber-400 font-black uppercase tracking-wider flex items-center gap-1.5">
+            <div className="flex items-center justify-between mb-5">
+              <label className="text-xs text-amber-300 font-black uppercase tracking-wider flex items-center gap-1.5">
                 📍 내 주변 마사지 검색하기
               </label>
               
               {/* 검색 모드 전환 탭 */}
-              <div className="flex bg-black/60 p-1 rounded-xl border border-white/10">
+              <div className="flex bg-black/75 p-1 rounded-xl border border-amber-500/30">
                 <button
                   type="button"
                   onClick={() => setSearchMode("healing")}
-                  className={`text-[10px] px-2.5 py-1 rounded-lg font-bold transition-all ${searchMode === "healing" ? "bg-amber-500 text-black shadow" : "text-gray-400 hover:text-white"}`}
+                  className={`text-[10px] px-3 py-1.5 rounded-lg font-extrabold transition-all ${searchMode === "healing" ? "bg-gradient-to-r from-amber-400 to-yellow-400 text-black shadow-[0_0_10px_rgba(245,158,11,0.4)]" : "text-gray-400 hover:text-white"}`}
                 >
                   ✨ 출장힐링
                 </button>
                 <button
                   type="button"
                   onClick={() => setSearchMode("normal")}
-                  className={`text-[10px] px-2.5 py-1 rounded-lg font-bold transition-all ${searchMode === "normal" ? "bg-amber-500 text-black shadow" : "text-gray-400 hover:text-white"}`}
+                  className={`text-[10px] px-3 py-1.5 rounded-lg font-extrabold transition-all ${searchMode === "normal" ? "bg-gradient-to-r from-amber-400 to-yellow-400 text-black shadow-[0_0_10px_rgba(245,158,11,0.4)]" : "text-gray-400 hover:text-white"}`}
                 >
                   📍 일반방문
                 </button>
               </div>
             </div>
 
-            <div className="space-y-3.5">
+            <div className="space-y-4">
               <div>
-                <span className="text-[11px] text-gray-400 block mb-1 font-semibold">1단계: 시·도 선택</span>
-                <select value={selectedRegion} onChange={handleRegionChange} className="bg-black/80 text-sm text-white w-full outline-none cursor-pointer font-bold p-3.5 rounded-xl border border-amber-500/30 focus:border-amber-400 transition-colors shadow-inner">
+                <span className="text-[11px] text-gray-300 block mb-1 font-bold">1단계: 시·도 선택</span>
+                <select value={selectedRegion} onChange={handleRegionChange} className="bg-black/90 text-sm text-white w-full outline-none cursor-pointer font-bold p-3.5 rounded-xl border border-amber-500/40 focus:border-amber-300 transition-colors shadow-inner">
                   {Object.keys(regionData).map((key) => (
-                    <option key={key} value={key} className="bg-[#1e1e1e] text-white">
+                    <option key={key} value={key} className="bg-[#1e1e24] text-white">
                       {regionData[key].name}
                     </option>
                   ))}
@@ -259,11 +263,11 @@ export default function MainClientUI() {
               </div>
 
               <div>
-                <span className="text-[11px] text-gray-400 block mb-1 font-semibold">2단계: 구·시·군 선택</span>
-                <select value={selectedDistrict} onChange={handleDistrictChange} className="bg-black/80 text-sm text-white w-full outline-none cursor-pointer font-bold p-3.5 rounded-xl border border-amber-500/30 focus:border-amber-400 transition-colors shadow-inner">
-                  <option value="" className="bg-[#1e1e1e] text-gray-400">구 / 시 / 군을 선택해주세요</option>
+                <span className="text-[11px] text-gray-300 block mb-1 font-bold">2단계: 구·시·군 선택</span>
+                <select value={selectedDistrict} onChange={handleDistrictChange} className="bg-black/90 text-sm text-white w-full outline-none cursor-pointer font-bold p-3.5 rounded-xl border border-amber-500/40 focus:border-amber-300 transition-colors shadow-inner">
+                  <option value="" className="bg-[#1e1e24] text-gray-400">구 / 시 / 군을 선택해주세요</option>
                   {Object.keys(currentDistricts).map((dKey) => (
-                    <option key={dKey} value={dKey} className="bg-[#1e1e1e] text-white">
+                    <option key={dKey} value={dKey} className="bg-[#1e1e24] text-white">
                       {currentDistricts[dKey].name}
                     </option>
                   ))}
@@ -271,20 +275,21 @@ export default function MainClientUI() {
               </div>
 
               <div>
-                <span className="text-[11px] text-gray-400 block mb-1 font-semibold">3단계: 동 선택 (텍스트 필터)</span>
-                <select value={selectedDong} onChange={(e) => setSelectedDong(e.target.value)} disabled={!selectedDistrict} className="bg-black/80 text-sm text-white w-full outline-none cursor-pointer font-medium p-3.5 rounded-xl border border-amber-500/30 disabled:opacity-30 transition-colors shadow-inner">
-                  <option value="" className="bg-[#1e1e1e] text-gray-400">동 전체 보기</option>
+                <span className="text-[11px] text-gray-300 block mb-1 font-bold">3단계: 동 선택 (텍스트 필터)</span>
+                <select value={selectedDong} onChange={(e) => setSelectedDong(e.target.value)} disabled={!selectedDistrict} className="bg-black/90 text-sm text-white w-full outline-none cursor-pointer font-medium p-3.5 rounded-xl border border-amber-500/40 disabled:opacity-30 transition-colors shadow-inner">
+                  <option value="" className="bg-[#1e1e24] text-gray-400">동 전체 보기</option>
                   {currentDongs.map((dong, idx) => (
-                    <option key={idx} value={dong} className="bg-[#1e1e1e] text-white">
+                    <option key={idx} value={dong} className="bg-[#1e1e24] text-white">
                       {dong}
                     </option>
                   ))}
                 </select>
               </div>
 
+              {/* CTR을 극대화하는 화려하고 입체적인 검색 버튼 */}
               <button 
                 onClick={handleSearch}
-                className="w-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 hover:from-amber-400 hover:to-yellow-300 text-black font-black py-4 rounded-2xl text-sm transition-all shadow-[0_0_25px_rgba(245,158,11,0.4)] mt-3 cursor-pointer transform active:scale-[0.98]"
+                className="w-full bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-300 text-black font-black py-4 rounded-2xl text-sm transition-all shadow-[0_0_30px_rgba(245,158,11,0.6)] mt-2 cursor-pointer transform active:scale-[0.98]"
               >
                 {searchMode === "healing" ? "✨ 출장 힐링 마사지샵 모아보기" : "🚀 내 주변 방문 홈케어 모아보기"}
               </button>

@@ -9,10 +9,10 @@ export default function ClientTextMixer({ locationText }: { locationText: string
   );
 
   useEffect(() => {
-    // 💡 접속 시 자연스러운 키워드 조합으로 회전/선택 (SEO 스팸 필터링 유연화 및 신뢰도 향상)
+    // 접속 시 자연스러운 키워드 조합으로 회전/선택 (스팸 키워드 배제 및 신뢰도 향상)
     const dynamicKeywords = [
-      `${locationText} 휴식의정원 추천 24시 방문 홈케어 & 힐링 테라피`,
-      `${locationText} 프라이빗 출장 마사지 & 프리미엄 바디케어 안내`,
+      `${locationText} 투데이쿡 추천 24시 방문 홈케어 & 힐링 테라피`,
+      `${locationText} 맞춤형 프리미엄 바디케어 및 휴식 가이드`,
       `${locationText} 100% 후불제 안심 예약! 신속 방문 제휴 테라피샵`,
       `${locationText} 베테랑 힐러의 맞춤형 타이·스웨디시 힐링 케어`,
     ];

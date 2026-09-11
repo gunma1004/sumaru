@@ -2,13 +2,13 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "생생 후기 | 휴식의정원 - 100% 실제 고객 방문 케어 이용 리뷰",
-  description: "서울·경기·인천·부산·대구·대전 등 전국 휴식의정원 제휴샵을 직접 이용하신 고객님들의 100% 솔직한 평점과 후기를 확인해 보세요.",
+  title: "생생 후기 | 투데이쿡 - 100% 실제 고객 방문 케어 이용 리뷰",
+  description: "서울·경기·인천 수도권 투데이쿡 제휴샵을 직접 이용하신 고객님들의 100% 솔직한 평점과 후기를 확인해 보세요.",
   openGraph: {
-    title: "생생 후기 | 휴식의정원",
-    description: "휴식의정원 실제 고객님들의 100% 솔직한 방문 테라피 이용 후기",
-    url: "https://Jungwon-healing.netlify.app/reviews",
-    siteName: "휴식의정원",
+    title: "생생 후기 | 투데이쿡",
+    description: "투데이쿡 실제 고객님들의 100% 솔직한 방문 테라피 이용 후기",
+    url: "https://todaykkuk.netlify.app/reviews",
+    siteName: "투데이쿡",
     locale: "ko_KR",
     type: "website",
   },
@@ -19,9 +19,9 @@ export default function ReviewsPage() {
     { 
       name: "서울 강남구 이용자", 
       rate: "★★★★★ 5.0", 
-      course: "한국인 VIP 코스",
+      course: "VIP 코스",
       date: "최근 이용",
-      text: "야근 후에 방문 홈케어 신청했는데 25분 만에 오셨어요. 어깨 뭉친 게 싹 풀려서 다음 날 컨디션이 최고였습니다!" 
+      text: "야근 후에 홈케어 신청했는데 25분 만에 오셨어요. 어깨 뭉친 게 싹 풀려서 다음 날 컨디션이 최고였습니다!" 
     },
     { 
       name: "경기 수원시 이용자", 
@@ -38,25 +38,18 @@ export default function ReviewsPage() {
       text: "부드러운 아로마 향과 함께 뭉친 근육을 잘 짚어주셔서 힐링 제대로 했습니다. 주말마다 정기적으로 부를 생각입니다." 
     },
     { 
-      name: "부산 해운대구 이용자", 
+      name: "서울 마포구 이용자", 
       rate: "★★★★★ 5.0", 
-      course: "타이 건식 케어",
-      date: "최근 이용",
-      text: "부산 출장 와서 피로가 누적되었는데 제휴점 연결도 빠르고 시간 약속 칼같이 맞춰오셔서 감동했습니다." 
-    },
-    { 
-      name: "대구 수성구 이용자", 
-      rate: "★★★★★ 5.0", 
-      course: "VIP 프리미엄",
+      course: "건식 릴렉싱 케어",
       date: "최근 이용",
       text: "집에서 편안하게 관리받을 수 있는 게 가장 큰 장점이네요. 위생 관리도 철저해서 안심하고 받았습니다." 
     },
     { 
-      name: "대전 유성구 이용자", 
+      name: "경기 성남시 이용자", 
       rate: "★★★★★ 5.0", 
-      course: "감성 스웨디시",
+      course: "VIP 프리미엄",
       date: "최근 이용",
-      text: "휴식의정원 후기 보고 믿고 예약했는데 역대급 힐링이었습니다. 다음에도 꼭 다시 이용하겠습니다!" 
+      text: "투데이쿡 후기 보고 믿고 예약했는데 역대급 힐링이었습니다. 다음에도 꼭 다시 이용하겠습니다!" 
     },
   ];
 
@@ -73,7 +66,7 @@ export default function ReviewsPage() {
             실제 이용 고객 생생 후기
           </h1>
           <p className="text-xs md:text-sm text-gray-400">
-            휴식의정원을 직접 경험하신 고객님들의 100% 솔직한 피로회복 후기
+            투데이쿡을 직접 경험하신 고객님들의 100% 솔직한 피로회복 후기
           </p>
         </div>
 
@@ -81,7 +74,7 @@ export default function ReviewsPage() {
         <div className="bg-gradient-to-r from-amber-500/10 via-amber-400/5 to-amber-500/10 border border-amber-500/30 p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-inner">
           <div>
             <span className="text-amber-300 font-extrabold text-sm md:text-base">
-              🏆 휴식의정원 고객 평균 만족도
+              🏆 투데이쿡 고객 평균 만족도
             </span>
             <p className="text-xs text-gray-300 mt-0.5">
               철저한 검증과 100% 후불제 정직한 서비스로 높은 재방문율을 유지합니다.
@@ -127,7 +120,7 @@ export default function ReviewsPage() {
             href="/"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-extrabold text-xs px-6 py-3.5 rounded-xl shadow-lg hover:from-amber-400 hover:to-yellow-300 transition-all active:scale-95"
           >
-            <span>🏠</span> 휴식의정원 홈으로 돌아가기
+            <span>🏠</span> 투데이쿡 홈으로 돌아가기
           </Link>
         </div>
 

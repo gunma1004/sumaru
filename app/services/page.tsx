@@ -2,13 +2,13 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "서비스 안내 | 휴식의정원 - 전국 방문 홈케어 & 힐링 테라피 코스",
-  description: "타이, 아로마 오일 케어, VIP 스웨디시, 한국인 베테랑 힐러 코스 등 휴식의정원의 고품격 피로회복 힐링 프로그램을 확인하세요.",
+  title: "서비스 안내 | 투데이쿡 - 수도권 방문 홈케어 & 힐링 테라피 코스",
+  description: "타이, 아로마 오일 케어, VIP 스웨디시, 베테랑 힐러 코스 등 투데이쿡의 고품격 피로회복 힐링 프로그램을 확인하세요.",
   openGraph: {
-    title: "서비스 안내 | 휴식의정원",
-    description: "휴식의정원이 제공하는 맞춤형 방문 테라피 & 프리미엄 바디케어 프로그램 안내",
-    url: "https://Jungwon-healing.netlify.app/services",
-    siteName: "휴식의정원",
+    title: "서비스 안내 | 투데이쿡",
+    description: "투데이쿡이 제공하는 맞춤형 방문 테라피 & 프리미엄 바디케어 프로그램 안내",
+    url: "https://todaykkuk.netlify.app/services",
+    siteName: "투데이쿡",
     locale: "ko_KR",
     type: "website",
   },
@@ -36,7 +36,7 @@ export default function ServicesPage() {
     },
     {
       num: "04",
-      title: "한국인 베테랑 VIP 케어",
+      title: "베테랑 VIP 케어",
       desc: "오랜 경력의 베테랑 힐러진이 고객님의 당일 컨디션에 맞춰 1:1 맞춤형 피로회복 플랜을 제공하는 프리미엄 프로그램입니다.",
       target: "체계적인 맞춤 관리와 최상의 힐링 만족도를 원하시는 VIP 고객"
     },
@@ -52,10 +52,10 @@ export default function ServicesPage() {
             PREMIUM CARE SERVICE
           </span>
           <h1 className="text-3xl md:text-4xl font-black text-white">
-            휴식의정원 코스별 서비스 안내
+            투데이쿡 코스별 서비스 안내
           </h1>
           <p className="text-xs md:text-sm text-gray-400">
-            고객님의 컨디션과 취향에 맞춘 전국 24시 최상의 힐링 프로그램
+            고객님의 컨디션과 취향에 맞춘 수도권 24시 최상의 힐링 프로그램
           </p>
         </div>
 
@@ -65,7 +65,7 @@ export default function ServicesPage() {
             ✨ 100% 후불제 & 철저한 위생 관리 시스템
           </p>
           <p className="text-xs text-gray-300 leading-relaxed max-w-xl mx-auto">
-            휴식의정원의 모든 제휴점은 최고급 천연 오일과 소독된 케어 용품을 사용하며, 관리사 도착 전 선입금을 절대 요구하지 않습니다.
+            투데이쿡의 모든 제휴점은 최고급 천연 오일과 소독된 케어 용품을 사용하며, 관리사 도착 전 선입금을 절대 요구하지 않습니다.
           </p>
         </div>
 

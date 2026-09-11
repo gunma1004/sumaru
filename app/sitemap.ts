@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // 🌐 실제 서비스 도메인 주소로 통일
-  const baseUrl = 'https://Jungwon-healing.netlify.app';
+  const baseUrl = 'https://todaykkuk.netlify.app';
 
   // 1. 메인 홈 페이지
   const mainRoute: MetadataRoute.Sitemap = [
@@ -36,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  // 4. 구·시 주요 권역 목록 (83개 지역)
+  // 4. 수도권 구·시 주요 권역 목록
   const regionList = [
     // 서울 주요 권역
     { region: 'seoul', district: '종로구' },
@@ -88,51 +88,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { region: 'incheon', district: '부평구' },
     { region: 'incheon', district: '계양구' },
     { region: 'incheon', district: '서구' },
-
-    // 부산 주요 권역
-    { region: 'busan', district: '해운대구' },
-    { region: 'busan', district: '부산진구' },
-    { region: 'busan', district: '수영구' },
-    { region: 'busan', district: '사상구' },
-    { region: 'busan', district: '사하구' },
-    { region: 'busan', district: '동래구' },
-    { region: 'busan', district: '금정구' },
-    { region: 'busan', district: '남구' },
-
-    // 대구 주요 권역
-    { region: 'daegu', district: '중구' },
-    { region: 'daegu', district: '수성구' },
-    { region: 'daegu', district: '동구' },
-    { region: 'daegu', district: '서구' },
-    { region: 'daegu', district: '남구' },
-    { region: 'daegu', district: '북구' },
-    { region: 'daegu', district: '달서구' },
-
-    // 대전 주요 권역
-    { region: 'daejeon', district: '서구' },
-    { region: 'daejeon', district: '유성구' },
-    { region: 'daejeon', district: '중구' },
-    { region: 'daejeon', district: '동구' },
-    { region: 'daejeon', district: '대덕구' },
-
-    // 광주 주요 권역
-    { region: 'gwangju_city', district: '서구' },
-    { region: 'gwangju_city', district: '북구' },
-    { region: 'gwangju_city', district: '광산구' },
-    { region: 'gwangju_city', district: '동구' },
-    { region: 'gwangju_city', district: '남구' },
-
-    // 울산 주요 권역
-    { region: 'ulsan', district: '남구' },
-    { region: 'ulsan', district: '중구' },
-    { region: 'ulsan', district: '북구' },
-    { region: 'ulsan', district: '동구' },
-
-    // 청주 주요 권역
-    { region: 'cheongju', district: '흥덕구' },
-    { region: 'cheongju', district: '서원구' },
-    { region: 'cheongju', district: '상당구' },
-    { region: 'cheongju', district: '청원구' },
   ];
 
   // A. 기본 지역별 상세 페이지 라우트
@@ -143,7 +98,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
-  // B. 💡 신규 추가: 출장 힐링 마사지 전용 페이지 라우트 (/healing/...)
+  // B. 💡 힐링 테라피 전용 페이지 라우트 (/healing/...)
   const healingRegionRoutes: MetadataRoute.Sitemap = regionList.map((item) => ({
     url: `${baseUrl}/healing/${item.region}/${encodeURIComponent(item.district)}`,
     lastModified: new Date(),
@@ -156,6 +111,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...categoryRoutes,
     ...shopRoutes,
     ...regionRoutes,
-    ...healingRegionRoutes, // 사이트맵에 힐링 키워드 페이지들 동적 추가
+    ...healingRegionRoutes,
   ];
 }

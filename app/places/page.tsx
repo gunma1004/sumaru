@@ -2,13 +2,13 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "맛집·숙소 가이드 | 휴식의정원 - 전국 힐링 공간 & 핫플레이스 안내",
-  description: "서울·경기·인천·부산·대구·대전 등 전국 주요 거점 지역의 검증된 맛집과 편안한 숙소·휴식 공간 정보를 휴식의정원에서 확인하세요.",
+  title: "맛집·숙소 가이드 | 투데이쿡 - 수도권 힐링 공간 & 핫플레이스 안내",
+  description: "서울·경기·인천 수도권 주요 거점 지역의 검증된 맛집과 편안한 숙소·휴식 공간 정보를 투데이쿡에서 확인하세요.",
   openGraph: {
-    title: "맛집·숙소 가이드 | 휴식의정원",
-    description: "전국 주요 지역 검증된 맛집 및 휴식 공간 안내",
-    url: "https://Jungwon-healing.netlify.app/places",
-    siteName: "휴식의정원",
+    title: "맛집·숙소 가이드 | 투데이쿡",
+    description: "서울 경기 인천 주요 지역 검증된 맛집 및 휴식 공간 안내",
+    url: "https://todaykkuk.netlify.app/places",
+    siteName: "투데이쿡",
     locale: "ko_KR",
     type: "website",
   },
@@ -22,7 +22,7 @@ export default function PlacesPage() {
     },
     {
       title: "🍽️ 지역 대표 맛집",
-      desc: "피로를 풀고 원기를 채워주는 지역별 현지인 추천 식당",
+      desc: "피로를 풀고 원기를 채워주는 수도권별 현지인 추천 식당",
     },
     {
       title: "🏨 프리미엄 호텔 & 스테이",
@@ -43,17 +43,17 @@ export default function PlacesPage() {
             내 주변 맛집 & 편안한 휴식 공간
           </h1>
           <p className="text-xs md:text-sm text-gray-400">
-            휴식의정원이 추천하는 지역별 검증된 핫플레이스와 편안한 쉼터 가이드
+            투데이쿡이 추천하는 수도권 지역별 검증된 핫플레이스와 편안한 쉼터 가이드
           </p>
         </div>
 
         {/* 안내 배너 박스 */}
         <div className="bg-gradient-to-r from-amber-500/10 via-amber-400/5 to-amber-500/10 border border-amber-500/30 p-6 rounded-3xl text-center space-y-2 shadow-inner">
           <p className="text-sm md:text-base font-bold text-amber-300">
-            📍 전국 주요 권역 실시간 핫플레이스 가이드
+            📍 수도권 주요 권역 실시간 핫플레이스 가이드
           </p>
           <p className="text-xs text-gray-300 leading-relaxed">
-            서울, 경기, 인천, 부산, 대구, 대전, 광주, 울산, 청주 등 전국 주요 거점 지역의 실시간 이용 가능한 맛집·숙소 연계 정보를 큐레이션하여 안내해 드립니다.
+            서울, 경기, 인천 등 수도권 주요 거점 지역의 실시간 이용 가능한 맛집·숙소 연계 정보를 큐레이션하여 안내해 드립니다.
           </p>
         </div>
 
@@ -80,7 +80,7 @@ export default function PlacesPage() {
             href="/"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-extrabold text-xs px-5 py-3 rounded-xl shadow-lg hover:from-amber-400 hover:to-yellow-300 transition-all"
           >
-            <span>🏠</span> 휴식의정원 홈으로 돌아가기
+            <span>🏠</span> 투데이쿡 홈으로 돌아가기
           </Link>
         </div>
 

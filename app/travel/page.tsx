@@ -2,13 +2,13 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "지역여행 가이드 | 마사지모아 - 전국 힐링 명소 & 드라이브 코스 안내",
-  description: "서울, 경기, 인천, 부산, 대구, 대전 등 전국 주요 도시의 심신 힐링 명소와 드라이브 코스를 마사지모아에서 확인하세요.",
+  title: "지역여행 가이드 | 투데이쿡 - 수도권 힐링 명소 & 드라이브 코스 안내",
+  description: "서울, 경기, 인천 수도권 주요 도시의 심신 힐링 명소와 드라이브 코스를 투데이쿡에서 확인하세요.",
   openGraph: {
-    title: "지역여행 가이드 | 마사지모아",
-    description: "피로를 풀고 여유를 되찾는 전국 주요 권역별 힐링 여행지 가이드",
-    url: "https://massagemoa.com/travel",
-    siteName: "마사지모아",
+    title: "지역여행 가이드 | 투데이쿡",
+    description: "피로를 풀고 여유를 되찾는 수도권 주요 권역별 힐링 여행지 가이드",
+    url: "https://todaykkuk.netlify.app/travel",
+    siteName: "투데이쿡",
     locale: "ko_KR",
     type: "website",
   },
@@ -34,18 +34,6 @@ export default function TravelPage() {
       desc: "이국적인 수변 공원과 시원한 서해 바다 낙조를 보며 여유로운 휴식을 즐길 수 있는 코스입니다.",
       tag: "오션뷰 & 힐링"
     },
-    {
-      region: "부산 코스",
-      title: "해운대 달맞이길 & 광안리 해변 드라이브",
-      desc: "푸른 바다 풍경과 화려한 광안대교 야경을 배경으로 여독을 풀기 좋은 영남 대표 해변 코스입니다.",
-      tag: "바다 & 야경"
-    },
-    {
-      region: "대구·대전 코스",
-      title: "팔공산 숲길 & 유성 온천 족욕 체험길",
-      desc: "사계절 수려한 산세의 피톤치드를 느끼고 따뜻한 온천수로 발의 피로를 풀어내는 재충전 코스입니다.",
-      tag: "온천 & 숲길"
-    },
   ];
 
   return (
@@ -58,10 +46,10 @@ export default function TravelPage() {
             LOCAL HEALING TRAVEL GUIDE
           </span>
           <h1 className="text-3xl md:text-4xl font-black text-white">
-            전국 힐링 여행지 안내
+            수도권 힐링 여행지 안내
           </h1>
           <p className="text-xs md:text-sm text-gray-400">
-            마사지모아가 추천하는 피로를 씻어내기 좋은 주요 도시별 힐링 명소
+            투데이쿡이 추천하는 피로를 씻어내기 좋은 수도권 도시별 힐링 명소
           </p>
         </div>
 
@@ -71,12 +59,12 @@ export default function TravelPage() {
             🌿 여행과 함께하는 나만의 프라이빗 힐링 라이프
           </p>
           <p className="text-xs text-gray-300 leading-relaxed max-w-xl mx-auto">
-            여행이나 출장 중 쌓인 피로를 상쾌하게 비워낼 수 있도록 전국 권역별 핫플레이스와 연계된 힐링 정보를 제공합니다.
+            여행이나 외출 중 쌓인 피로를 상쾌하게 비워낼 수 있도록 수도권 권역별 핫플레이스와 연계된 힐링 정보를 제공합니다.
           </p>
         </div>
 
         {/* 여행 코스 그리드 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {travelCourses.map((course, idx) => (
             <div 
               key={idx} 
@@ -106,7 +94,7 @@ export default function TravelPage() {
             href="/"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-extrabold text-xs px-6 py-3.5 rounded-xl shadow-lg hover:from-amber-400 hover:to-yellow-300 transition-all active:scale-95"
           >
-            <span>🏠</span> 마사지모아 홈으로 돌아가기
+            <span>🏠</span> 투데이쿡 홈으로 돌아가기
           </Link>
         </div>
 

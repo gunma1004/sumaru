@@ -8,19 +8,14 @@ export default function NavigationHeader() {
   const [isHealingOpen, setIsHealingOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // 서울, 경기, 인천 수도권 지역 중심
   const regionList = [
     { name: "📍 서울 지역", href: `/seoul/${encodeURIComponent("서울특별시")}` },
     { name: "📍 경기 지역", href: `/gyeonggi/${encodeURIComponent("경기도")}` },
     { name: "📍 인천 지역", href: `/incheon/${encodeURIComponent("인천광역시")}` },
-    { name: "📍 부산 지역", href: `/busan/${encodeURIComponent("부산광역시")}` },
-    { name: "📍 대구 지역", href: `/daegu/${encodeURIComponent("대구광역시")}` },
-    { name: "📍 대전 지역", href: `/daejeon/${encodeURIComponent("대전광역시")}` },
-    { name: "📍 광주 지역", href: `/gwangju_city/${encodeURIComponent("광주광역시")}` },
-    { name: "📍 울산 지역", href: `/ulsan/${encodeURIComponent("울산광역시")}` },
-    { name: "📍 청주 지역", href: `/cheongju/${encodeURIComponent("청주시")}` },
   ];
 
-  // 힐링 페이지 전용 빠른 이동 리스트
+  // 힐링 페이지 전용 빠른 이동 리스트 (수도권 대상)
   const healingRegionList = [
     { name: "✨ 서울 힐링 홈케어", href: `/healing/seoul/${encodeURIComponent("서울특별시")}` },
     { name: "✨ 경기 힐링 홈케어", href: `/healing/gyeonggi/${encodeURIComponent("경기도")}` },
@@ -33,13 +28,11 @@ export default function NavigationHeader() {
         
         {/* 로고 영역 */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <img 
-            src="/logo.png" 
-            alt="휴식의정원 로고" 
-            className="w-9 h-9 rounded-xl object-cover border border-amber-500/40 group-hover:scale-105 transition-transform" 
-          />
+          <div className="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center font-black text-black text-sm shadow border border-amber-400">
+            뚝
+          </div>
           <span className="text-lg font-black tracking-wider bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent">
-            휴식의정원
+            투데이쿡
           </span>
         </Link>
 
@@ -52,7 +45,7 @@ export default function NavigationHeader() {
             가격안내
           </Link>
 
-          {/* 기존 지역안내 드롭다운 */}
+          {/* 기본 지역안내 드롭다운 */}
           <div 
             className="relative cursor-pointer py-2"
             onMouseEnter={() => setIsRegionOpen(true)}
@@ -64,7 +57,7 @@ export default function NavigationHeader() {
             </button>
 
             {isRegionOpen && (
-              <div className="absolute top-full left-0 w-40 bg-[#121214] border border-amber-500/30 rounded-2xl shadow-2xl py-2 space-y-1 text-xs z-50 max-h-72 overflow-y-auto">
+              <div className="absolute top-full left-0 w-40 bg-[#121214] border border-amber-500/30 rounded-2xl shadow-2xl py-2 space-y-1 text-xs z-50">
                 {regionList.map((r, idx) => (
                   <Link 
                     key={idx} 
@@ -78,7 +71,7 @@ export default function NavigationHeader() {
             )}
           </div>
 
-          {/* 💡 신규: 출장 힐링 마사지 안내 드롭다운 */}
+          {/* 출장 힐링 마사지 안내 드롭다운 */}
           <div 
             className="relative cursor-pointer py-2"
             onMouseEnter={() => setIsHealingOpen(true)}
@@ -147,7 +140,6 @@ export default function NavigationHeader() {
             </div>
           </div>
 
-          {/* 💡 신규: 모바일용 출장 힐링 케어 바로가기 */}
           <div className="pt-1 border-t border-white/5">
             <span className="text-[11px] text-amber-300 font-bold block mb-2 px-1">✨ 출장 힐링 마사지 바로가기</span>
             <div className="grid grid-cols-3 gap-1.5">
