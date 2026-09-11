@@ -104,7 +104,7 @@ const regionData: Record<string, { name: string; districts: Record<string, { nam
 };
 
 const initialLocalShops = [
-  { id: 1, name: "투데이쿡 프리미엄 홈타이", desc: "서울 경기 인천 주요 지역 신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
+  { id: 1, name: "투데이쿡 프리미엄 홈타이", desc: "수도권 주요 지역 신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
   { id: 2, name: "투데이쿡 힐링 테라피", desc: "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피 서비스", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
   { id: 3, name: "투데이쿡 바디케어", desc: "신속 정확한 방문 안내, 철저한 위생 관리와 럭셔리 케어", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
   { id: 4, name: "투데이쿡 스페셜 테라피", desc: "전문 관리사의 맞춤형 피로회복 특화 프로그램", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },

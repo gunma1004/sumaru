@@ -10,12 +10,21 @@ interface PageProps {
   }>;
 }
 
-// 🎯 Cloudflare/Netlify 정적 빌드 시 미리 생성할 경로 조합 예시
+// 🌐 영문 지역 코드를 완벽한 한글 지역명으로 변환하는 함수
+function getRegionFullName(region: string): string {
+  switch (region.toLowerCase()) {
+    case "seoul": return "서울";
+    case "gyeonggi": return "경기";
+    case "incheon": return "인천";
+    default: return region;
+  }
+}
+
+// 클라우드/넷리파이 정적 빌드용 경로 설정
 export async function generateStaticParams() {
-  // 예시 조합 (서울 강남구 역삼1동에 1~5번 샵 매핑)
   const regions = ["seoul", "gyeonggi", "incheon"];
   const districts = ["gangnam", "suwon_jangan", "bupyeong"];
-  const dongs = ["yeoksam1-dong", "jeongja1-dong", "bupyeong-dong"];
+  const dongs = ["yeoksam1-dong", "jeongja1-dong", "bupyeong-dong", "all"];
   const shopIds = ["1", "2", "3", "4", "5"];
 
   const paths = [];
@@ -108,15 +117,22 @@ const shopData: Record<
   },
 };
 
-// 🎯 메타데이터 설정 ([지역명] 출장마사지 - [샵이름] 형식 유지)
+// 🎯 메타데이터 설정 (URL 인코딩 및 영문 코드를 완벽한 한글로 정제)
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const { region, district, dong, shopId } = resolvedParams;
   const shop = shopData[shopId] || shopData["1"];
 
-  const locationStr = `${region} ${district} ${dong}`.replace(/-/g, " ");
-  const formattedTitle = `${locationStr} 출장마사지 - ${shop.name} | 투데이쿡`;
-  const formattedDesc = `${locationStr} 인근 방문 제휴업체 ${shop.name}. 선입금 없는 100% 안심 후불제 안내.`;
+  const regionName = getRegionFullName(region);
+  
+  // URL 인코딩된 값(예: %EC%96%91%EC%B2%9C%EA%B5%AC)을 디코딩하여 정상적인 한글로 변환
+  const decodedDistrict = decodeURIComponent(district);
+  const cleanDong = dong && dong !== "all" ? decodeURIComponent(dong) : "";
+
+  // 최종 조합 (예: 서울 양천구 신정3동)
+  const locationPrefix = `${regionName} ${decodedDistrict} ${cleanDong}`.trim();
+  const formattedTitle = `${locationPrefix} 출장마사지 - ${shop.name} | 투데이쿡`;
+  const formattedDesc = `${locationPrefix} 인근 방문 제휴업체 ${shop.name}. 선입금 없는 100% 안심 후불제 안내.`;
 
   return {
     title: formattedTitle,
@@ -137,8 +153,12 @@ export default async function ShopDetailPage({ params }: PageProps) {
   const { region, district, dong, shopId } = resolvedParams;
   const shop = shopData[shopId] || shopData["1"];
 
-  const locationStr = `${region} ${district} ${dong}`.replace(/-/g, " ");
-  const displayShopName = `${locationStr} 출장마사지 - ${shop.name}`;
+  const regionName = getRegionFullName(region);
+  const decodedDistrict = decodeURIComponent(district);
+  const cleanDong = dong && dong !== "all" ? decodeURIComponent(dong) : "";
+
+  const locationPrefix = `${regionName} ${decodedDistrict} ${cleanDong}`.trim();
+  const displayShopName = `${locationPrefix} 출장마사지 - ${shop.name}`;
 
   return (
     <div className="bg-[#050505] text-gray-100 min-h-screen flex flex-col font-sans selection:bg-amber-500 selection:text-black pb-24">
