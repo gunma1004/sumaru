@@ -20,6 +20,29 @@ function getRegionFullName(region: string): string {
   }
 }
 
+// 🛠️ URL 인코딩된 한글 문자열을 완벽하게 디코딩하고 공백을 정제하는 헬퍼 함수
+function parseLocationText(region: string, district: string, dong: string): string {
+  const regionName = getRegionFullName(region);
+  
+  let decodedDistrict = "";
+  try {
+    decodedDistrict = decodeURIComponent(district || "").trim();
+  } catch {
+    decodedDistrict = district || "";
+  }
+
+  let cleanDong = "";
+  if (dong && dong !== "all") {
+    try {
+      cleanDong = decodeURIComponent(dong || "").trim();
+    } catch {
+      cleanDong = dong || "";
+    }
+  }
+
+  return `${regionName} ${decodedDistrict} ${cleanDong}`.replace(/\s+/g, " ").trim();
+}
+
 // 클라우드/넷리파이 정적 빌드용 경로 설정
 export async function generateStaticParams() {
   const regions = ["seoul", "gyeonggi", "incheon"];
@@ -74,7 +97,7 @@ const shopData: Record<
     image: "/shop2.jpg",
     desc: "품격 있는 힐링을 선사하는 프라이빗 케어! 최고급 오일과 맞춤형 테라피로 특별한 휴식을 드립니다.",
     courses: [
-      { name: "맞춤형 바디 건식케어", time: "60분", price: "60,000원", desc: "부담 없이 가볍게 상/하체 피로를 푸는 실속 코스" },
+      { name: "맞춤형 바디 건식케er", time: "60분", price: "60,000원", desc: "부담 없이 가볍게 상/하체 피로를 푸는 실속 코스" },
       { name: "스페셜 아로마", time: "60분", price: "80,000원", desc: "부드러운 오일 압으로 스트레스 완화" },
     ],
     features: ["100% 후불제 안심결제", "친절 마인드 힐러 상시 대기"],
@@ -117,20 +140,13 @@ const shopData: Record<
   },
 };
 
-// 🎯 메타데이터 설정 (URL 인코딩 및 영문 코드를 완벽한 한글로 정제)
+// 🎯 메타데이터 설정 (완벽한 한글 지역명 조합)
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const { region, district, dong, shopId } = resolvedParams;
   const shop = shopData[shopId] || shopData["1"];
 
-  const regionName = getRegionFullName(region);
-  
-  // URL 인코딩된 값(예: %EC%96%91%EC%B2%9C%EA%B5%AC)을 디코딩하여 정상적인 한글로 변환
-  const decodedDistrict = decodeURIComponent(district);
-  const cleanDong = dong && dong !== "all" ? decodeURIComponent(dong) : "";
-
-  // 최종 조합 (예: 서울 양천구 신정3동)
-  const locationPrefix = `${regionName} ${decodedDistrict} ${cleanDong}`.trim();
+  const locationPrefix = parseLocationText(region, district, dong);
   const formattedTitle = `${locationPrefix} 출장마사지 - ${shop.name} | 투데이쿡`;
   const formattedDesc = `${locationPrefix} 인근 방문 제휴업체 ${shop.name}. 선입금 없는 100% 안심 후불제 안내.`;
 
@@ -153,11 +169,7 @@ export default async function ShopDetailPage({ params }: PageProps) {
   const { region, district, dong, shopId } = resolvedParams;
   const shop = shopData[shopId] || shopData["1"];
 
-  const regionName = getRegionFullName(region);
-  const decodedDistrict = decodeURIComponent(district);
-  const cleanDong = dong && dong !== "all" ? decodeURIComponent(dong) : "";
-
-  const locationPrefix = `${regionName} ${decodedDistrict} ${cleanDong}`.trim();
+  const locationPrefix = parseLocationText(region, district, dong);
   const displayShopName = `${locationPrefix} 출장마사지 - ${shop.name}`;
 
   return (
