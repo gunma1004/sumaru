@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 // 서울, 경기, 인천 지역 및 구·동 데이터
@@ -117,7 +116,6 @@ export default function MainClientUI() {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedDong, setSelectedDong] = useState("");
   
-  const [searchMode, setSearchMode] = useState<"normal" | "healing">("healing");
   const [shuffledShops, setShuffledShops] = useState(initialLocalShops);
 
   useEffect(() => {
@@ -144,9 +142,7 @@ export default function MainClientUI() {
     const districtObj = regionData[selectedRegion]?.districts[selectedDistrict];
     const districtName = districtObj ? districtObj.name : selectedDistrict;
     
-    // 🎯 /healing 접두사를 완전히 제거하고 깔끔한 지역 주소 체계로 통일
     const baseUrl = `/${selectedRegion}/${encodeURIComponent(districtName)}`;
-    
     const targetUrl = selectedDong 
       ? `${baseUrl}/${encodeURIComponent(selectedDong)}` 
       : `${baseUrl}/all`;
@@ -168,25 +164,25 @@ export default function MainClientUI() {
         <section className="text-center my-2">
           <div className="overflow-hidden rounded-3xl border-2 border-amber-500/40 shadow-[0_0_50px_rgba(245,158,11,0.25)] relative h-64 md:h-84 flex items-center justify-center p-6 group">
             <div className="absolute inset-0 z-0">
-              <img src="/banner.jpg" alt="메인 힐링 배너" className="w-full h-full object-cover filter brightness-[0.5] contrast-[1.1] group-hover:scale-105 transition-transform duration-700" />
+              <img src="/banner.jpg" alt="메인 힐링 배너" className="w-full h-full object-cover filter brightness-[0.5] contrast-[1.1]" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-amber-500/10"></div>
             </div>
             
             <div className="relative z-10 space-y-3.5 max-w-xl mx-auto">
-              <span className="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-black font-black text-xs tracking-widest shadow-[0_0_20px_rgba(245,158,11,0.5)] animate-bounce">
-                ✨ 서울 경기 인천 프리미엄 힐링 플랫폼
+              <span className="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-black font-black text-xs tracking-widest shadow-[0_0_20px_rgba(245,158,11,0.5)]">
+                ✨ 서울 경기 인천 프리미엄 홈케어 플랫폼
               </span>
               <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
                 수도권 전 지역 <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-300 bg-clip-text text-transparent">맞춤형 방문 홈케어 안내</span>
               </h1>
               <p className="text-gray-200 text-xs md:text-sm font-medium drop-shadow">
-                엄선된 베테랑 관리사의 맞춤형 피로회복 서비스! 지금 바로 투데이쿡 제휴샵을 확인하세요.
+                엄선된 베테랑 관리사의 맞춤형 피로회복 서비스! 안전하고 신속한 제휴업체를 만나보세요.
               </p>
             </div>
           </div>
         </section>
 
-        {/* 제휴업체 리스트 섹션 (역삼1동 고정 대신 서울 강남구 역삼1동 기본 경로로 연결) */}
+        {/* 제휴업체 리스트 섹션 (클릭 기능 제거 및 깔끔한 정보 카드 형태) */}
         <section className="space-y-6">
           <div className="text-center mb-6">
             <p className="text-xs text-amber-400 font-extrabold tracking-widest uppercase">BEST RECOMMENDED SHOPS</p>
@@ -197,17 +193,16 @@ export default function MainClientUI() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {shuffledShops.map((lShop) => (
-              <div key={lShop.id} className="bg-gradient-to-br from-[#161619] to-[#101013] border border-amber-500/25 hover:border-amber-400 rounded-2xl p-4 flex gap-4 items-center shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:shadow-[0_0_25px_rgba(245,158,11,0.2)] transition-all group relative">
-                <Link href={`/seoul/강남구/역삼1동/${lShop.id}`} className="absolute inset-0 z-10" aria-label={`${lShop.name} 상세페이지 보기`} />
-                <img src={lShop.image} alt={lShop.name} className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border border-amber-500/30 group-hover:scale-105 transition-transform" />
+              <div key={lShop.id} className="bg-gradient-to-br from-[#161619] to-[#101013] border border-amber-500/25 rounded-2xl p-4 flex gap-4 items-center shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+                <img src={lShop.image} alt={lShop.name} className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border border-amber-500/30" />
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-extrabold text-sm md:text-base text-white truncate group-hover:text-amber-400 transition-colors">
+                  <h3 className="font-extrabold text-sm md:text-base text-white truncate">
                     {lShop.name}
                   </h3>
                   <p className="text-[11px] text-gray-300 mt-1 line-clamp-2">{lShop.desc}</p>
                   <div className="mt-2.5 flex items-center justify-between">
                     <span className="text-xs font-black text-amber-300">{lShop.price}</span>
-                    <a href={`tel:${lShop.phone}`} className="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-black text-xs px-3.5 py-1.5 rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all relative z-20">
+                    <a href={`tel:${lShop.phone}`} className="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-black text-xs px-3.5 py-1.5 rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all">
                       전화연결
                     </a>
                   </div>
@@ -217,31 +212,14 @@ export default function MainClientUI() {
           </div>
         </section>
 
-        {/* 지역 선택 박스 */}
+        {/* 지역 선택 및 검색 박스 */}
         <section className="pt-4">
           <div className="bg-gradient-to-b from-[#1c1c22] to-[#121217] border-2 border-amber-500/50 p-6 md:p-8 rounded-3xl max-w-xl mx-auto shadow-[0_15px_40px_rgba(0,0,0,0.9),0_0_30px_rgba(245,158,11,0.15)] text-left relative overflow-hidden">
             
-            <div className="flex items-center justify-between mb-5">
+            <div className="mb-5">
               <label className="text-xs text-amber-300 font-black uppercase tracking-wider flex items-center gap-1.5">
                 📍 내 주변 마사지 검색하기
               </label>
-              
-              <div className="flex bg-black/75 p-1 rounded-xl border border-amber-500/30">
-                <button
-                  type="button"
-                  onClick={() => setSearchMode("healing")}
-                  className={`text-[10px] px-3 py-1.5 rounded-lg font-extrabold transition-all ${searchMode === "healing" ? "bg-gradient-to-r from-amber-400 to-yellow-400 text-black shadow-[0_0_10px_rgba(245,158,11,0.4)]" : "text-gray-400 hover:text-white"}`}
-                >
-                  ✨ 출장힐링
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSearchMode("normal")}
-                  className={`text-[10px] px-3 py-1.5 rounded-lg font-extrabold transition-all ${searchMode === "normal" ? "bg-gradient-to-r from-amber-400 to-yellow-400 text-black shadow-[0_0_10px_rgba(245,158,11,0.4)]" : "text-gray-400 hover:text-white"}`}
-                >
-                  📍 일반방문
-                </button>
-              </div>
             </div>
 
             <div className="space-y-4">
@@ -284,7 +262,7 @@ export default function MainClientUI() {
                 onClick={handleSearch}
                 className="w-full bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-300 text-black font-black py-4 rounded-2xl text-sm transition-all shadow-[0_0_30px_rgba(245,158,11,0.6)] mt-2 cursor-pointer transform active:scale-[0.98]"
               >
-                {searchMode === "healing" ? "✨ 출장 힐링 마사지샵 모아보기" : "🚀 내 주변 방문 홈케어 모아보기"}
+                🚀 내 주변 방문 홈케어 모아보기
               </button>
             </div>
           </div>
