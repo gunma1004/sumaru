@@ -43,7 +43,7 @@ function parseLocationText(region: string, district: string, dong: string): stri
   return `${regionName} ${decodedDistrict} ${cleanDong}`.replace(/\s+/g, " ").trim();
 }
 
-// 샵 데이터 정의 (shop1 ~ shop5)
+// 💎 요청하신 정확한 코스 및 가격 정보가 반영된 샵 데이터
 const shopData: Record<
   string,
   {
@@ -65,8 +65,13 @@ const shopData: Record<
     image: "/shop1.jpg",
     desc: "지친 일상을 깨우는 정성 가득한 테라피! 최고급 베테랑 힐러진이 고객님의 공간으로 직접 찾아갑니다.",
     courses: [
-      { name: "스웨디시 코스", time: "60분", price: "110,000원", desc: "뭉친 근육과 피로를 집중적으로 풀어주는 기본 테라피" },
-      { name: "VIP 스웨디시", time: "90분", price: "180,000원", desc: "집중케어가 결합된 최고급 풀케어 코스" },
+      { name: "아로디시", time: "90분", price: "100,000원", desc: "부드럽고 시원한 힐링 아로디시 코스" },
+      { name: "아로디시", time: "120분", price: "130,000원", desc: "여유롭게 즐기는 120분 아로디시 코스" },
+      { name: "VIP스웨디시", time: "60분", price: "110,000원", desc: "고품격 감성 스웨디시 집중 케어" },
+      { name: "VIP스웨디시", time: "90분", price: "130,000원", desc: "깊은 휴식을 선사하는 인기 VIP 코스" },
+      { name: "VIP스웨디시", time: "120분", price: "150,000원", desc: "완벽한 피로 회복을 위한 120분 풀케어" },
+      { name: "한국인스웨디시", time: "60분", price: "140,000원", desc: "전문 한국인 관리사의 섬세한 스웨디시" },
+      { name: "한국인스웨디시", time: "90분", price: "180,000원", desc: "최고급 만족도를 선사하는 한국인 스페셜" },
     ],
     features: ["100% 후불제 안심결제", "24시간 365일 연중무휴", "수도권 주요 거점 25분 칼도착"],
   },
@@ -78,8 +83,21 @@ const shopData: Record<
     image: "/shop2.jpg",
     desc: "품격 있는 힐링을 선사하는 프라이빗 케어! 최고급 오일과 맞춤형 테라피로 특별한 휴식을 드립니다.",
     courses: [
-      { name: "맞춤형 바디 건식케어", time: "60분", price: "60,000원", desc: "부담 없이 가볍게 상/하체 피로를 푸는 실속 코스" },
-      { name: "스페셜 아로마", time: "60분", price: "80,000원", desc: "부드러운 오일 압으로 스트레스 완화" },
+      { name: "타이코스", time: "60분", price: "60,000원", desc: "전신 스트레칭과 뻐근함 해소" },
+      { name: "타이코스", time: "90분", price: "80,000원", desc: "여유로운 타이 전신 스트레칭" },
+      { name: "타이코스", time: "120분", price: "100,000원", desc: "구석구석 시원하게 풀어주는 코스" },
+      { name: "전신아로마", time: "60분", price: "70,000원", desc: "부드러운 오일 전신 순환 케어" },
+      { name: "전신아로마", time: "90분", price: "90,000원", desc: "스트레스 완화 아로마 테라피" },
+      { name: "전신아로마", time: "120분", price: "110,000원", desc: "깊은 릴렉싱을 주는 120분 아로마" },
+      { name: "VIP 감성힐링코스 ★추천", time: "60분", price: "90,000원", desc: "감성 터치가 더해진 인기 힐링 코스" },
+      { name: "VIP 감성힐링코스 ★추천", time: "90분", price: "110,000원", desc: "만족도 높은 시그니처 감성 힐링" },
+      { name: "VIP 감성힐링코스 ★추천", time: "120분", price: "130,000원", desc: "오래도록 지속되는 편안함" },
+      { name: "VIP 스페셜코스 ★추천", time: "60분", price: "100,000원", desc: "특별한 관리를 원하실 때 추천" },
+      { name: "VIP 스페셜코스 ★추천", time: "90분", price: "120,000원", desc: "고품격 맞춤형 스페셜 케어" },
+      { name: "VIP 스페셜코스 ★추천", time: "120분", price: "140,000원", desc: "최고의 힐링을 선사하는 스페셜" },
+      { name: "VIP 프리미엄 코스", time: "150분", price: "160,000원", desc: "타이 & 아로마 & 풋코스 종합 프로그램" },
+      { name: "한국인스웨디시", time: "60분", price: "140,000원", desc: "전문 한국인 관리사의 품격 있는 스웨디시" },
+      { name: "한국인스웨디시", time: "90분", price: "180,000원", desc: "최고급 감성 스웨디시 풀케어" },
     ],
     features: ["100% 후불제 안심결제", "친절 마인드 힐러 상시 대기"],
   },
@@ -91,7 +109,21 @@ const shopData: Record<
     image: "/shop3.jpg",
     desc: "칼도착 25분 보장! 철저한 위생 관리와 럭셔리한 서비스로 완벽한 피로 회복을 약속드립니다.",
     courses: [
-      { name: "스탠다드 타이", time: "60분", price: "60,000원", desc: "전신 스트레칭 중심의 뻐근함 해소 케어" },
+      { name: "타이코스", time: "60분", price: "60,000원", desc: "전신 스트레칭과 뻐근함 해소" },
+      { name: "타이코스", time: "90분", price: "80,000원", desc: "여유로운 타이 전신 스트레칭" },
+      { name: "타이코스", time: "120분", price: "100,000원", desc: "구석구석 시원하게 풀어주는 코스" },
+      { name: "전신아로마", time: "60분", price: "70,000원", desc: "부드러운 오일 전신 순환 케어" },
+      { name: "전신아로마", time: "90분", price: "90,000원", desc: "스트레스 완화 아로마 테라피" },
+      { name: "전신아로마", time: "120분", price: "110,000원", desc: "깊은 릴렉싱을 주는 120분 아로마" },
+      { name: "VIP 감성힐링코스 ★추천", time: "60분", price: "90,000원", desc: "감성 터치가 더해진 인기 힐링 코스" },
+      { name: "VIP 감성힐링코스 ★추천", time: "90분", price: "110,000원", desc: "만족도 높은 시그니처 감성 힐링" },
+      { name: "VIP 감성힐링코스 ★추천", time: "120분", price: "130,000원", desc: "오래도록 지속되는 편안함" },
+      { name: "VIP 스페셜코스 ★추천", time: "60분", price: "100,000원", desc: "특별한 관리를 원하실 때 추천" },
+      { name: "VIP 스페셜코스 ★추천", time: "90분", price: "120,000원", desc: "고품격 맞춤형 스페셜 케어" },
+      { name: "VIP 스페셜코스 ★추천", time: "120분", price: "140,000원", desc: "최고의 힐링을 선사하는 스페셜" },
+      { name: "VIP 프리미엄 코스", time: "150분", price: "160,000원", desc: "타이 & 아로마 & 풋코스 종합 프로그램" },
+      { name: "한국인스웨디시", time: "60분", price: "140,000원", desc: "전문 한국인 관리사의 품격 있는 스웨디시" },
+      { name: "한국인스웨디시", time: "90분", price: "180,000원", desc: "최고급 감성 스웨디시 풀케어" },
     ],
     features: ["선입금 0원 100% 후불제", "평균 25분 방문 보장"],
   },
@@ -103,7 +135,20 @@ const shopData: Record<
     image: "/shop4.jpg",
     desc: "전문 힐러들의 맞춤형 VIP 피로회복 특화 프로그램입니다.",
     courses: [
-      { name: "건식힐링 코스", time: "60분", price: "60,000원", desc: "원하는 부위를 집중적으로 풀어주는 릴렉싱 코스" },
+      { name: "건식 힐링 코스", time: "60분", price: "60,000원", desc: "원하는 부위를 집중적으로 풀어주는 건식 릴렉스" },
+      { name: "건식 힐링 코스", time: "90분", price: "80,000원", desc: "여유롭고 시원한 건식 힐링" },
+      { name: "건식 힐링 코스", time: "120분", price: "100,000원", desc: "전신 피로를 날려버리는 120분 건식" },
+      { name: "아로마 힐링 코스", time: "60분", price: "70,000원", desc: "부드러운 오일 순환 아로마 케어" },
+      { name: "아로마 힐링 코스", time: "90분", price: "80,000원", desc: "스트레스 해소를 위한 아로마 힐링" },
+      { name: "아로마 힐링 코스", time: "120분", price: "100,000원", desc: "풍성한 오일 테라피 프로그램" },
+      { name: "힐링스웨디시 코스", time: "60분", price: "80,000원", desc: "부드럽고 감미로운 힐링 스웨디시" },
+      { name: "힐링스웨디시 코스", time: "90분", price: "100,000원", desc: "깊은 안정감을 주는 스웨디시 케어" },
+      { name: "힐링스웨디시 코스", time: "120분", price: "120,000원", desc: "여유로운 프리미엄 스웨디시" },
+      { name: "VIP스페셜코스", time: "60분", price: "100,000원", desc: "특별한 만족감을 주는 VIP 스페셜" },
+      { name: "VIP스페셜코스", time: "90분", price: "120,000원", desc: "최상급 테라피스트의 집중 관리" },
+      { name: "VIP스페셜코스", time: "120분", price: "150,000원", desc: "완벽한 휴식을 위한 120분 VIP" },
+      { name: "한국 관리사 코스", time: "60분", price: "150,000원", desc: "전문 한국인 관리사의 1:1 맞춤 케어" },
+      { name: "한국 관리사 코스", time: "90분", price: "180,000원", desc: "최고급 프리미엄 한국인 관리 코스" },
     ],
     features: ["세련된 감성 테라피", "100% 후불 결제"],
   },
@@ -115,7 +160,11 @@ const shopData: Record<
     image: "/shop5.jpg",
     desc: "선입금 없는 100% 후불제 안심 이용 서비스.",
     courses: [
-      { name: "골든 스웨디시", time: "60분", price: "140,000원", desc: "지친 피로를 깔끔하게 해소" },
+      { name: "스웨디시 코스", time: "60분", price: "140,000원", desc: "고품격 프리미엄 스웨디시 케어" },
+      { name: "스웨디시 코스", time: "90분", price: "190,000원", desc: "깊은 휴식과 힐링을 주는 90분 스웨디시" },
+      { name: "프리미엄 코스", time: "60분", price: "110,000원", desc: "실속 있고 알찬 프리미엄 프로그램" },
+      { name: "프리미엄 코스", time: "90분", price: "130,000원", desc: "여유롭게 즐기는 90분 프리미엄 케어" },
+      { name: "프리미엄 코스", time: "120분", price: "150,000원", desc: "모든 피로를 해소하는 120분 풀코스" },
     ],
     features: ["100% 후불제", "수도권 빠른 도착"],
   },
@@ -219,13 +268,13 @@ export default async function ShopDetailPage({ params }: PageProps) {
 
           <div className="space-y-4">
             {shop.courses.map((course, idx) => (
-              <div key={idx} className="bg-black/60 border border-white/10 p-5 rounded-2xl flex justify-between items-center">
+              <div key={idx} className="bg-black/60 border border-white/10 p-5 rounded-2xl flex justify-between items-center hover:border-amber-500/40 transition-colors">
                 <div>
                   <span className="text-red-400 text-[10px] font-black mr-2">{course.time}</span>
                   <h3 className="font-extrabold text-white text-base inline">{course.name}</h3>
                   <p className="text-xs text-gray-400 mt-1">{course.desc}</p>
                 </div>
-                <span className="text-base font-black text-amber-400">{course.price}</span>
+                <span className="text-base font-black text-amber-400 shrink-0 ml-4">{course.price}</span>
               </div>
             ))}
           </div>

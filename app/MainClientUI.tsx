@@ -103,12 +103,13 @@ const regionData: Record<string, { name: string; districts: Record<string, { nam
   }
 };
 
+// 🌟 제휴업체 이름을 기존 오리지널 이름(한국미녀홈타이 등)으로 복원
 const initialLocalShops = [
-  { id: 1, name: "투데이쿡 프리미엄 홈타이", desc: "수도권 주요 지역 신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
-  { id: 2, name: "투데이쿡 힐링 테라피", desc: "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피 서비스", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
-  { id: 3, name: "투데이쿡 바디케어", desc: "신속 정확한 방문 안내, 철저한 위생 관리와 럭셔리 케어", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
-  { id: 4, name: "투데이쿡 스페셜 테라피", desc: "전문 관리사의 맞춤형 피로회복 특화 프로그램", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
-  { id: 5, name: "투데이쿡 안심 홈케어", desc: "수도권 주요 지역 맞춤형 바디케어 서비스 안내", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
+  { id: 1, name: "한국미녀홈타이", desc: "전국 주요지역 신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
+  { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피 서비스", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
+  { id: 3, name: "예쁜걸홈타이", desc: "칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케er", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
+  { id: 4, name: "퀸즈홈테라피", desc: "전문 힐러들의 맞춤형 VIP 피로회복 특화 프로그램", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
+  { id: 5, name: "한국골든테라피", desc: "선입금 없는 100% 후불제! 수도권 주요지역 25분 내 도착", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
 ];
 
 export default function MainClientUI() {
@@ -117,9 +118,7 @@ export default function MainClientUI() {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedDong, setSelectedDong] = useState("");
   
-  // 검색 모드 선택 상태 ("healing": 출장 힐링 마사지 vs "normal": 일반 방문케어)
   const [searchMode, setSearchMode] = useState<"normal" | "healing">("healing");
-
   const [shuffledShops, setShuffledShops] = useState(initialLocalShops);
 
   useEffect(() => {
@@ -151,8 +150,8 @@ export default function MainClientUI() {
     const baseUrl = `${prefix}/${encodeURIComponent(districtName)}`;
     
     const targetUrl = selectedDong 
-      ? `${baseUrl}?dong=${encodeURIComponent(selectedDong)}` 
-      : baseUrl;
+      ? `${baseUrl}/${encodeURIComponent(selectedDong)}` 
+      : `${baseUrl}/all`;
     
     router.push(targetUrl);
   };
@@ -163,17 +162,15 @@ export default function MainClientUI() {
   return (
     <div className="bg-[#0b0b0f] text-gray-100 min-h-screen flex flex-col font-sans selection:bg-amber-400 selection:text-black relative overflow-hidden">
       
-      {/* 🌟 배경에 화사하고 은은한 앰버/골드빛 조명 글로우 효과 추가 (어두워 보이지 않고 CTR을 높이도록 입체감 부여) */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[450px] bg-gradient-to-b from-amber-500/15 via-yellow-500/5 to-transparent rounded-full blur-3xl pointer-events-none z-0"></div>
 
       <main className="max-w-4xl mx-auto px-4 py-8 w-full flex-1 space-y-12 relative z-10">
         
-        {/* 상단 메인 배너 (밝고 화사한 그라데이션 오버레이 적용) */}
+        {/* 상단 메인 배너 */}
         <section className="text-center my-2">
           <div className="overflow-hidden rounded-3xl border-2 border-amber-500/40 shadow-[0_0_50px_rgba(245,158,11,0.25)] relative h-64 md:h-84 flex items-center justify-center p-6 group">
             <div className="absolute inset-0 z-0">
               <img src="/banner.jpg" alt="메인 힐링 배너" className="w-full h-full object-cover filter brightness-[0.5] contrast-[1.1] group-hover:scale-105 transition-transform duration-700" />
-              {/* 어두운 느낌을 덜어내고 앰버빛 생기를 불어넣는 화사한 그라데이션 */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-amber-500/10"></div>
             </div>
             
@@ -191,7 +188,7 @@ export default function MainClientUI() {
           </div>
         </section>
 
-        {/* 제휴업체 리스트 섹션 */}
+        {/* 제휴업체 리스트 섹션 (클릭 시 강남구 역삼1동 기본 경로 또는 기본 상세로 연결되도록 수정) */}
         <section className="space-y-6">
           <div className="text-center mb-6">
             <p className="text-xs text-amber-400 font-extrabold tracking-widest uppercase">BEST RECOMMENDED SHOPS</p>
@@ -203,7 +200,8 @@ export default function MainClientUI() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {shuffledShops.map((lShop) => (
               <div key={lShop.id} className="bg-gradient-to-br from-[#161619] to-[#101013] border border-amber-500/25 hover:border-amber-400 rounded-2xl p-4 flex gap-4 items-center shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:shadow-[0_0_25px_rgba(245,158,11,0.2)] transition-all group relative">
-                <Link href={`/shop/${lShop.id}`} className="absolute inset-0 z-10" aria-label={`${lShop.name} 상세페이지 보기`} />
+                {/* 🎯 메인에서 클릭 시 깔끔한 하위 구조 경로(/seoul/강남구/역삼1동/[id])로 연결 */}
+                <Link href={`/seoul/강남구/역삼1동/${lShop.id}`} className="absolute inset-0 z-10" aria-label={`${lShop.name} 상세페이지 보기`} />
                 <img src={lShop.image} alt={lShop.name} className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border border-amber-500/30 group-hover:scale-105 transition-transform" />
                 <div className="flex-1 min-w-0">
                   <h3 className="font-extrabold text-sm md:text-base text-white truncate group-hover:text-amber-400 transition-colors">
@@ -222,7 +220,7 @@ export default function MainClientUI() {
           </div>
         </section>
 
-        {/* 지역 선택 및 검색 모드 선택 박스 (배경을 화사하고 입체감 있게 개선) */}
+        {/* 지역 선택 및 검색 모드 선택 박스 */}
         <section className="pt-4">
           <div className="bg-gradient-to-b from-[#1c1c22] to-[#121217] border-2 border-amber-500/50 p-6 md:p-8 rounded-3xl max-w-xl mx-auto shadow-[0_15px_40px_rgba(0,0,0,0.9),0_0_30px_rgba(245,158,11,0.15)] text-left relative overflow-hidden">
             
@@ -231,7 +229,6 @@ export default function MainClientUI() {
                 📍 내 주변 마사지 검색하기
               </label>
               
-              {/* 검색 모드 전환 탭 */}
               <div className="flex bg-black/75 p-1 rounded-xl border border-amber-500/30">
                 <button
                   type="button"
@@ -286,7 +283,6 @@ export default function MainClientUI() {
                 </select>
               </div>
 
-              {/* CTR을 극대화하는 화려하고 입체적인 검색 버튼 */}
               <button 
                 onClick={handleSearch}
                 className="w-full bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-300 text-black font-black py-4 rounded-2xl text-sm transition-all shadow-[0_0_30px_rgba(245,158,11,0.6)] mt-2 cursor-pointer transform active:scale-[0.98]"
