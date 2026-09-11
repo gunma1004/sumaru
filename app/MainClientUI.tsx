@@ -103,11 +103,10 @@ const regionData: Record<string, { name: string; districts: Record<string, { nam
   }
 };
 
-// 🌟 제휴업체 이름을 기존 오리지널 이름(한국미녀홈타이 등)으로 복원
 const initialLocalShops = [
   { id: 1, name: "한국미녀홈타이", desc: "전국 주요지역 신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
   { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피 서비스", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
-  { id: 3, name: "예쁜걸홈타이", desc: "칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케er", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
+  { id: 3, name: "예쁜걸홈타이", desc: "칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케어", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
   { id: 4, name: "퀸즈홈테라피", desc: "전문 힐러들의 맞춤형 VIP 피로회복 특화 프로그램", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
   { id: 5, name: "한국골든테라피", desc: "선입금 없는 100% 후불제! 수도권 주요지역 25분 내 도착", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
 ];
@@ -145,9 +144,8 @@ export default function MainClientUI() {
     const districtObj = regionData[selectedRegion]?.districts[selectedDistrict];
     const districtName = districtObj ? districtObj.name : selectedDistrict;
     
-    // 모드에 따라 이동할 경로 분기
-    const prefix = searchMode === "healing" ? `/healing/${selectedRegion}` : `/${selectedRegion}`;
-    const baseUrl = `${prefix}/${encodeURIComponent(districtName)}`;
+    // 🎯 /healing 접두사를 완전히 제거하고 깔끔한 지역 주소 체계로 통일
+    const baseUrl = `/${selectedRegion}/${encodeURIComponent(districtName)}`;
     
     const targetUrl = selectedDong 
       ? `${baseUrl}/${encodeURIComponent(selectedDong)}` 
@@ -188,7 +186,7 @@ export default function MainClientUI() {
           </div>
         </section>
 
-        {/* 제휴업체 리스트 섹션 (클릭 시 강남구 역삼1동 기본 경로 또는 기본 상세로 연결되도록 수정) */}
+        {/* 제휴업체 리스트 섹션 (역삼1동 고정 대신 서울 강남구 역삼1동 기본 경로로 연결) */}
         <section className="space-y-6">
           <div className="text-center mb-6">
             <p className="text-xs text-amber-400 font-extrabold tracking-widest uppercase">BEST RECOMMENDED SHOPS</p>
@@ -200,7 +198,6 @@ export default function MainClientUI() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {shuffledShops.map((lShop) => (
               <div key={lShop.id} className="bg-gradient-to-br from-[#161619] to-[#101013] border border-amber-500/25 hover:border-amber-400 rounded-2xl p-4 flex gap-4 items-center shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:shadow-[0_0_25px_rgba(245,158,11,0.2)] transition-all group relative">
-                {/* 🎯 메인에서 클릭 시 깔끔한 하위 구조 경로(/seoul/강남구/역삼1동/[id])로 연결 */}
                 <Link href={`/seoul/강남구/역삼1동/${lShop.id}`} className="absolute inset-0 z-10" aria-label={`${lShop.name} 상세페이지 보기`} />
                 <img src={lShop.image} alt={lShop.name} className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border border-amber-500/30 group-hover:scale-105 transition-transform" />
                 <div className="flex-1 min-w-0">
@@ -220,7 +217,7 @@ export default function MainClientUI() {
           </div>
         </section>
 
-        {/* 지역 선택 및 검색 모드 선택 박스 */}
+        {/* 지역 선택 박스 */}
         <section className="pt-4">
           <div className="bg-gradient-to-b from-[#1c1c22] to-[#121217] border-2 border-amber-500/50 p-6 md:p-8 rounded-3xl max-w-xl mx-auto shadow-[0_15px_40px_rgba(0,0,0,0.9),0_0_30px_rgba(245,158,11,0.15)] text-left relative overflow-hidden">
             
