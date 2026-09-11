@@ -43,7 +43,7 @@ function parseLocationText(region: string, district: string, dong: string): stri
   return `${regionName} ${decodedDistrict} ${cleanDong}`.replace(/\s+/g, " ").trim();
 }
 
-// 💎 요청하신 정확한 코스 및 가격 정보가 반영된 샵 데이터
+// 💎 정확한 코스 및 가격 정보가 반영된 샵 데이터
 const shopData: Record<
   string,
   {
@@ -170,15 +170,15 @@ const shopData: Record<
   },
 };
 
-// 🎯 메타데이터 설정
+// 🎯 메타데이터 설정 (SEO 최적화 및 영문/healing 단어 제거)
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const { region, district, dong, shopId } = resolvedParams;
   const shop = shopData[shopId] || shopData["1"];
 
   const locationPrefix = parseLocationText(region, district, dong);
-  const formattedTitle = `${locationPrefix} 출장마사지 - ${shop.name} | 투데이쿡`;
-  const formattedDesc = `${locationPrefix} 인근 방문 제휴업체 ${shop.name}. 선입금 없는 100% 안심 후불제 안내.`;
+  const formattedTitle = `${locationPrefix} 출장 힐링 테라피 - ${shop.name} | 투데이쿡`;
+  const formattedDesc = `${locationPrefix} 인근 방문 제휴업체 ${shop.name}. 선입금 없는 100% 안심 후불제 출장 홈케어 안내.`;
 
   return {
     title: formattedTitle,
