@@ -20,24 +20,30 @@ function getRegionFullName(region: string): string {
   }
 }
 
-// 🛠️ URL 인코딩 및 한글 주소 파싱 헬퍼 함수
+// 🛠️ 이중 인코딩까지 안전하게 풀어주는 디코딩 헬퍼 함수
+function safeDecode(str: string): string {
+  if (!str) return "";
+  let decoded = str;
+  try {
+    // 2번 연속 디코딩하여 %EC%... 같은 이중 인코딩 코드를 완전 복원
+    decoded = decodeURIComponent(decodeURIComponent(str));
+  } catch {
+    try {
+      decoded = decodeURIComponent(str);
+    } catch {
+      decoded = str;
+    }
+  }
+  return decoded.trim();
+}
+
 function parseLocationText(region: string, district: string, dong: string): string {
   const regionName = getRegionFullName(region);
+  const decodedDistrict = safeDecode(district);
   
-  let decodedDistrict = "";
-  try {
-    decodedDistrict = decodeURIComponent(district || "").trim();
-  } catch {
-    decodedDistrict = district || "";
-  }
-
   let cleanDong = "";
   if (dong && dong !== "all") {
-    try {
-      cleanDong = decodeURIComponent(dong || "").trim();
-    } catch {
-      cleanDong = dong || "";
-    }
+    cleanDong = safeDecode(dong);
   }
 
   return `${regionName} ${decodedDistrict} ${cleanDong}`.replace(/\s+/g, " ").trim();
@@ -178,11 +184,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const locationPrefix = parseLocationText(region, district, dong);
 
-  // 구/동 및 샵에 따른 고유 인덱스 계산 (중복 문서 패널티 방지)
   const charSum = (locationPrefix + shop.name + shopId + "todaykkuk_bypass_seo").split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
   const variantIndex = charSum % 30;
 
-  // 30종의 출장 마사지 배리에이션 타이틀
   const titleVariants = [
     `${locationPrefix} 출장 타이 마사지 24시 안내 - ${shop.name} | 투데이쿡`,
     `${locationPrefix} 출장 아로마 마사지 전문 제휴점 · ${shop.name}`,
@@ -216,7 +220,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     `${locationPrefix} 출장 시그니처 웰니스 마사지 · ${shop.name}`
   ];
 
-  // 30종의 출장 마사지 배리에이션 디스크립션
   const descriptionVariants = [
     `${locationPrefix} 24시 신속 방문 출장 타이 마사지 전문 ${shop.name}. 선입금 없는 100% 후불제로 안심하고 이용하세요.`,
     `${locationPrefix} 전지역 출장 아로마 마사지 제휴 안내. 최고급 천연 오일로 전신 피로를 부드럽게 풀어드립니다.`,
@@ -257,7 +260,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: formattedTitle,
     description: formattedDesc,
     keywords: [
-      // 🌟 `${locationPrefix} 출장 [종류] 마사지` 단일 형식 정확히 50개
       `${locationPrefix} 출장 타이 마사지`,
       `${locationPrefix} 출장 아로마 마사지`,
       `${locationPrefix} 출장 릴렉스 마사지`,
