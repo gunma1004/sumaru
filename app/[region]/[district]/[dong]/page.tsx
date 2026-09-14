@@ -20,12 +20,13 @@ function getRegionFullName(region: string): string {
   }
 }
 
+// '출장' 제외, 마사지/웰니스/스웨디시/타이마사지 중심 정제 데이터
 const initialShopList = [
-  { id: 1, name: "한국미녀홈타이", desc: "수도권 주요 지역 25분 내 신속 방문! 실시간 만족도 1위", phone: "0507-1280-3303", price: "70,000원부터~", image: "/shop1.jpg" },
-  { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 최고급 프라이빗 테라피", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
-  { id: 3, name: "예쁜걸홈타이", desc: "칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케어", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
-  { id: 4, name: "퀸즈홈테라피", desc: "전문 힐러들의 맞춤형 VIP 피로회복 특화 프로그램", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
-  { id: 5, name: "한국골든테라피", desc: "선입금 없는 100% 후불제 안심 이용 서비스", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
+  { id: 1, name: "한국미녀홈타이", desc: "수도권 주요 지역 감성 스웨디시 & 아로마 웰니스 테라피", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
+  { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 정통 타이마사지 및 프라이빗 바디케어", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
+  { id: 3, name: "예쁜걸홈타이", desc: "철저한 위생 관리와 쾌적한 릴렉스 아로마 마사지 프로그램", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
+  { id: 4, name: "퀸즈홈테라피", desc: "전문 테라피스트들의 1:1 맞춤형 VIP 피로회복 웰니스 케어", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
+  { id: 5, name: "한국골든테라피", desc: "선입금 없는 100% 현장 후불제 안심 감성 스웨디시 마사지", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
 ];
 
 export default function DongPage({ params }: PageProps) {
@@ -35,7 +36,6 @@ export default function DongPage({ params }: PageProps) {
   useEffect(() => {
     params.then((p) => {
       setResolvedParams(p);
-      // 🌟 새로고침할 때마다 동 페이지 업체 순서도 랜덤 셔플
       setShuffledShops([...initialShopList].sort(() => Math.random() - 0.5));
     });
   }, [params]);
@@ -69,15 +69,15 @@ export default function DongPage({ params }: PageProps) {
 
       <main className="max-w-4xl mx-auto px-4 py-8 w-full flex-1 space-y-6">
         <div className="text-center space-y-2 py-6 bg-[#121214] border border-amber-500/30 rounded-3xl p-6 shadow-lg">
-          <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">REGIONAL PARTNER SHOPS</span>
-          <h1 className="text-2xl md:text-3xl font-black text-white">📍 {locationTitle} 제휴업체 안내</h1>
-          <p className="text-xs text-gray-300">선입금 없는 100% 후불제 안심 방문 홈케어 서비스</p>
+          <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">WELLNESS & MASSAGE PARTNERS</span>
+          <h1 className="text-2xl md:text-3xl font-black text-white">📍 {locationTitle} 웰니스 마사지 제휴업체</h1>
+          <p className="text-xs text-gray-300">선입금 없는 100% 현장 후불제 안심 스웨디시 · 타이마사지 안내</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {shuffledShops.map((shop) => (
             <div key={shop.id} className="bg-gradient-to-br from-[#161619] to-[#101013] border border-amber-500/25 hover:border-amber-400 rounded-2xl p-4 flex gap-4 items-center shadow-lg transition-all group relative">
-              <Link href={`/${region}/${district}/${dong}/${shop.id}`} className="absolute inset-0 z-10" aria-label={`${shop.name} 상세보기`} />
+              <Link href={`/${region}/${encodeURIComponent(district)}/${encodeURIComponent(dong)}/${shop.id}`} className="absolute inset-0 z-10" aria-label={`${shop.name} 상세보기`} />
               <img src={shop.image} alt={shop.name} className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border border-amber-500/30" />
               <div className="flex-1 min-w-0">
                 <h3 className="font-extrabold text-sm md:text-base text-white truncate group-hover:text-amber-400 transition-colors">

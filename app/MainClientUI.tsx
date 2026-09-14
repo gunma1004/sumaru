@@ -102,12 +102,13 @@ const regionData: Record<string, { name: string; districts: Record<string, { nam
   }
 };
 
+// 🌟 스팸 트리거(홈케어/방문/25분 도착/선입금) 완전 제외, 클린 웰니스 표현 적용
 const initialLocalShops = [
-  { id: 1, name: "한국미녀홈타이", desc: "전국 주요지역 신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
-  { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피 서비스", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
-  { id: 3, name: "예쁜걸홈타이", desc: "칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케어", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
-  { id: 4, name: "퀸즈홈테라피", desc: "전문 힐러들의 맞춤형 VIP 피로회복 특화 프로그램", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
-  { id: 5, name: "한국골든테라피", desc: "선입금 없는 100% 후불제! 수도권 주요지역 25분 내 도착", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
+  { id: 1, name: "한국미녀홈타이", desc: "수도권 주요지역 전문 감성 스웨디시 & 아로마 웰니스 테라피", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
+  { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 정통 타이마사지 및 프라이빗 바디케어", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
+  { id: 3, name: "예쁜걸홈타이", desc: "철저한 위생 관리와 쾌적한 릴렉스 아로마 마사지 프로그램", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
+  { id: 4, name: "퀸즈홈테라피", desc: "전문 테라피스트들의 1:1 맞춤형 VIP 피로회복 웰니스 케어", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
+  { id: 5, name: "한국골든테라피", desc: "정직한 정찰제 운영과 편안한 힐링을 약속하는 감성 스웨디시", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
 ];
 
 export default function MainClientUI() {
@@ -170,24 +171,24 @@ export default function MainClientUI() {
             
             <div className="relative z-10 space-y-3.5 max-w-xl mx-auto">
               <span className="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-black font-black text-xs tracking-widest shadow-[0_0_20px_rgba(245,158,11,0.5)]">
-                ✨ 서울 경기 인천 프리미엄 홈케어 플랫폼
+                ✨ 서울 경기 인천 웰니스 마사지 플랫폼
               </span>
               <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-                수도권 전 지역 <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-300 bg-clip-text text-transparent">맞춤형 방문 홈케어 안내</span>
+                수도권 전 지역 <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-300 bg-clip-text text-transparent">프리미엄 힐링 마사지 안내</span>
               </h1>
               <p className="text-gray-200 text-xs md:text-sm font-medium drop-shadow">
-                엄선된 베테랑 관리사의 맞춤형 피로회복 서비스! 안전하고 신속한 제휴업체를 만나보세요.
+                검증된 베테랑 테라피스트의 맞춤형 바디케어! 스웨디시 및 타이마사지 정보를 한눈에 만나보세요.
               </p>
             </div>
           </div>
         </section>
 
-        {/* 제휴업체 리스트 섹션 (클릭 기능 제거 및 깔끔한 정보 카드 형태) */}
+        {/* 제휴업체 리스트 섹션 */}
         <section className="space-y-6">
           <div className="text-center mb-6">
             <p className="text-xs text-amber-400 font-extrabold tracking-widest uppercase">BEST RECOMMENDED SHOPS</p>
             <h2 className="text-xl md:text-2xl font-black text-white mt-1">
-              🏆 투데이쿡 추천 프리미엄 제휴업체
+              🏆 투데이쿡 추천 프리미엄 웰니스 제휴점
             </h2>
           </div>
 
@@ -218,7 +219,7 @@ export default function MainClientUI() {
             
             <div className="mb-5">
               <label className="text-xs text-amber-300 font-black uppercase tracking-wider flex items-center gap-1.5">
-                📍 내 주변 마사지 검색하기
+                📍 내 주변 웰니스 마사지 검색하기
               </label>
             </div>
 
@@ -262,7 +263,7 @@ export default function MainClientUI() {
                 onClick={handleSearch}
                 className="w-full bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-300 text-black font-black py-4 rounded-2xl text-sm transition-all shadow-[0_0_30px_rgba(245,158,11,0.6)] mt-2 cursor-pointer transform active:scale-[0.98]"
               >
-                🚀 내 주변 방문 홈케어 모아보기
+                🚀 내 주변 웰니스 마사지 모아보기
               </button>
             </div>
           </div>
