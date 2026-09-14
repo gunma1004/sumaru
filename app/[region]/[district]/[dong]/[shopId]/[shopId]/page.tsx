@@ -20,12 +20,11 @@ function getRegionFullName(region: string): string {
   }
 }
 
-// 🛠️ 이중 인코딩까지 안전하게 풀어주는 디코딩 헬퍼 함수
+// 🛠️ 이중 URL 인코딩까지 안전하게 풀어주는 디코딩 헬퍼 함수
 function safeDecode(str: string): string {
   if (!str) return "";
   let decoded = str;
   try {
-    // 2번 연속 디코딩하여 %EC%... 같은 이중 인코딩 코드를 완전 복원
     decoded = decodeURIComponent(decodeURIComponent(str));
   } catch {
     try {
@@ -176,7 +175,7 @@ const shopData: Record<
   },
 };
 
-// 🎯 출장 회피형 문구 배리에이션 메타데이터
+// 🎯 동 단위 출장 회피형 메타데이터 생성
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const { region, district, dong, shopId } = resolvedParams;
@@ -184,7 +183,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const locationPrefix = parseLocationText(region, district, dong);
 
-  const charSum = (locationPrefix + shop.name + shopId + "todaykkuk_bypass_seo").split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const charSum = (locationPrefix + shop.name + shopId + "todaykkuk_dong_shop_seo").split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
   const variantIndex = charSum % 30;
 
   const titleVariants = [
@@ -257,7 +256,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const formattedDesc = descriptionVariants[variantIndex];
 
   return {
-    title: formattedTitle,
+    title: {
+      absolute: formattedTitle,
+    },
     description: formattedDesc,
     keywords: [
       `${locationPrefix} 출장 타이 마사지`,
@@ -314,7 +315,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: formattedTitle,
       description: formattedDesc,
-      url: `https://todaykkuk.netlify.app/${region}/${district}/${dong}/${shopId}`,
+      url: `https://todaykkuk.netlify.app/${region}/${encodeURIComponent(safeDecode(district))}/${encodeURIComponent(safeDecode(dong))}/shop/${shopId}`,
       siteName: "투데이쿡",
       locale: "ko_KR",
       type: "website",
@@ -322,7 +323,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function ShopDetailPage({ params }: PageProps) {
+export default async function DongShopDetailPage({ params }: PageProps) {
   const resolvedParams = await params;
   const { region, district, dong, shopId } = resolvedParams;
   const shop = shopData[shopId] || shopData["1"];

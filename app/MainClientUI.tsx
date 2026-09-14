@@ -135,6 +135,7 @@ export default function MainClientUI() {
     setSelectedDong("");
   };
 
+  // 🌟 동 선택 여부에 따라 URL 분기 (/all 제거)
   const handleSearch = () => {
     if (!selectedDistrict) {
       alert("원하시는 지역(구/시)을 먼저 선택해주세요!");
@@ -144,9 +145,11 @@ export default function MainClientUI() {
     const districtName = districtObj ? districtObj.name : selectedDistrict;
     
     const baseUrl = `/${selectedRegion}/${encodeURIComponent(districtName)}`;
+    
+    // 동이 선택되었으면 '/seoul/마포구/서교동', 선택 안 했으면 '/seoul/마포구'로 이동
     const targetUrl = selectedDong 
       ? `${baseUrl}/${encodeURIComponent(selectedDong)}` 
-      : `${baseUrl}/all`;
+      : baseUrl;
     
     router.push(targetUrl);
   };
