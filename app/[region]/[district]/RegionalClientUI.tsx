@@ -9,7 +9,7 @@ interface RegionalClientUIProps {
   dongName: string;
 }
 
-// 🌐 서울, 경기, 인천 전체 구·동 데이터 완벽 연동
+// 🌐 서울, 경기, 인천 전체 구·동 데이터
 const fullRegionData: Record<string, { name: string; districts: Record<string, { name: string; dongs: string[] }> }> = {
   seoul: {
     name: "서울특별시",
@@ -108,29 +108,28 @@ const fullRegionData: Record<string, { name: string; districts: Record<string, {
   }
 };
 
+// 🌟 스팸 트리거 완전 배제, 클린 웰니스 표현
 const initialShopList = [
-  { id: 1, name: "한국미녀홈타이", desc: "전국 주요지역 신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
-  { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피 서비스", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
-  { id: 3, name: "예쁜걸홈타이", desc: "칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케어", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
-  { id: 4, name: "퀸즈홈테라피", desc: "전문 힐러들의 맞춤형 VIP 피로회복 특화 프로그램", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
-  { id: 5, name: "한국골든테라피", desc: "선입금 없는 100% 후불제! 수도권 주요지역 25분 내 도착", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
+  { id: 1, name: "한국미녀홈타이", desc: "수도권 주요지역 전문 감성 스웨디시 & 아로마 웰니스 테라피", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
+  { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 정통 타이마사지 및 프라이빗 바디케어", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
+  { id: 3, name: "예쁜걸홈타이", desc: "철저한 위생 관리와 쾌적한 릴렉스 아로마 마사지 프로그램", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
+  { id: 4, name: "퀸즈홈테라피", desc: "전문 테라피스트들의 1:1 맞춤형 VIP 피로회복 웰니스 케어", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
+  { id: 5, name: "한국골든테라피", desc: "정직한 정찰제 운영과 편안한 힐링을 약속하는 감성 스웨디시", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
 ];
 
 export default function RegionalClientUI({ region, district, dongName }: RegionalClientUIProps) {
   const [shuffledShops, setShuffledShops] = useState(initialShopList);
 
   useEffect(() => {
-    // 🌟 새로고침하거나 페이지를 이동할 때마다 샵 리스트를 랜덤하게 섞음
     setShuffledShops([...initialShopList].sort(() => Math.random() - 0.5));
   }, [region, district, dongName]);
 
   const regionKoreanName = region === "seoul" ? "서울" : region === "incheon" ? "인천" : "경기";
   const displayTitle = `${regionKoreanName} ${district}${dongName ? ` ${dongName}` : ""}`;
   
-  // 전체 지역 데이터에서 현재 지역(seoul/gyeonggi/incheon)과 구 이름을 찾아 해당 동 목록 추출
   const targetRegionObj = fullRegionData[region];
   const targetDistrictObj = targetRegionObj?.districts[district];
-  const dongs = targetDistrictObj ? targetDistrictObj.dongs : ["전체", "상세동 문의"];
+  const dongs = targetDistrictObj ? targetDistrictObj.dongs : [];
 
   return (
     <div className="bg-[#050505] text-gray-100 min-h-screen flex flex-col font-sans selection:bg-amber-400 selection:text-black pb-24">
@@ -145,7 +144,7 @@ export default function RegionalClientUI({ region, district, dongName }: Regiona
               <span className="text-xl font-black tracking-wider bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent">
                 투데이쿡
               </span>
-              <span className="text-[10px] text-gray-400 tracking-tighter">PREMIUM HOME CARE</span>
+              <span className="text-[10px] text-gray-400 tracking-tighter">PREMIUM WELLNESS PARTNER</span>
             </div>
           </Link>
           <Link
@@ -158,57 +157,70 @@ export default function RegionalClientUI({ region, district, dongName }: Regiona
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8 w-full flex-1 space-y-8">
-        {/* 타이틀 배너 */}
+        {/* 타이틀 배너 (스팸 단어 완전 배제, 클린 웰니스 표현) */}
         <div className="text-center space-y-2 py-6 bg-[#121214] border border-amber-500/30 rounded-3xl p-6 shadow-lg">
-          <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">REGIONAL PARTNER GUIDE</span>
-          <h1 className="text-2xl md:text-3xl font-black text-white">📍 {displayTitle} 출장 홈케어 안내</h1>
-          <p className="text-xs text-gray-300">선입금 없는 100% 후불제 안심 방문 홈케어 서비스</p>
+          <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">REGIONAL WELLNESS GUIDE</span>
+          <h1 className="text-2xl md:text-3xl font-black text-white">📍 {displayTitle} 웰니스 마사지 안내</h1>
+          <p className="text-xs text-gray-300">정직한 정찰제 요금과 검증된 테라피스트의 프라이빗 힐링 바디케어</p>
         </div>
 
-        {/* 🌟 선택한 구에 속한 모든 세부 동 바로가기 그리드 버튼 */}
-        <section className="bg-[#0d0d0f] border border-amber-500/20 p-6 rounded-3xl space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-sm font-black text-amber-400 tracking-wider uppercase">📌 {district} 세부 동 선택하기</h2>
-            {dongName && (
-              <Link 
-                href={`/${region}/${encodeURIComponent(district)}`}
-                className="text-[11px] font-bold text-gray-400 hover:text-amber-400 transition-colors"
-              >
-                🔄 전체 동 보기
-              </Link>
-            )}
-          </div>
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
-            {dongs.map((dItem, idx) => {
-              const isSelected = dongName === dItem;
-              return (
-                <Link
-                  key={idx}
-                  href={`/${region}/${encodeURIComponent(district)}?dong=${encodeURIComponent(dItem)}`}
-                  className={`text-xs font-bold py-2.5 px-3 rounded-xl text-center transition-all truncate shadow border ${
-                    isSelected 
-                      ? "bg-amber-500 text-black border-amber-400 font-black shadow-[0_0_15px_rgba(245,158,11,0.4)]" 
-                      : "bg-black/60 border-amber-500/20 hover:border-amber-400 hover:bg-amber-500/10 text-gray-200 hover:text-amber-300"
-                  }`}
+        {/* 🌟 세부 동 바로가기 그리드 (클린 URL 구조 연동) */}
+        {dongs.length > 0 && (
+          <section className="bg-[#0d0d0f] border border-amber-500/20 p-6 rounded-3xl space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-sm font-black text-amber-400 tracking-wider uppercase">📌 {district} 세부 동 선택하기</h2>
+              {dongName && (
+                <Link 
+                  href={`/${region}/${encodeURIComponent(district)}`}
+                  className="text-[11px] font-bold text-gray-400 hover:text-amber-400 transition-colors"
                 >
-                  {dItem}
+                  🔄 전체 동 보기
                 </Link>
-              );
-            })}
-          </div>
-        </section>
+              )}
+            </div>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+              {dongs.map((dItem, idx) => {
+                const isSelected = dongName === dItem;
+                return (
+                  <Link
+                    key={idx}
+                    href={`/${region}/${encodeURIComponent(district)}/${encodeURIComponent(dItem)}`}
+                    className={`text-xs font-bold py-2.5 px-3 rounded-xl text-center transition-all truncate shadow border ${
+                      isSelected 
+                        ? "bg-amber-500 text-black border-amber-400 font-black shadow-[0_0_15px_rgba(245,158,11,0.4)]" 
+                        : "bg-black/60 border-amber-500/20 hover:border-amber-400 hover:bg-amber-500/10 text-gray-200 hover:text-amber-300"
+                    }`}
+                  >
+                    {dItem}
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
-        {/* 제휴업체 목록 (새로고침 시 매번 랜덤 셔플) */}
+        {/* 🌟 제휴업체 목록: 카드 전체에 Link 적용 (구 기준: /shop/[id]) */}
         <section className="space-y-4">
           <h2 className="text-sm font-black text-amber-400 tracking-wider uppercase">
             🏆 {displayTitle} 추천 제휴업체 목록
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {shuffledShops.map((shop) => (
-              <div key={shop.id} className="bg-gradient-to-br from-[#161619] to-[#101013] border border-amber-500/25 hover:border-amber-400 rounded-2xl p-4 flex gap-4 items-center shadow-lg transition-all group relative">
+              <div 
+                key={shop.id} 
+                className="bg-gradient-to-br from-[#161619] to-[#101013] border border-amber-500/25 hover:border-amber-400 rounded-2xl p-4 flex gap-4 items-center shadow-lg transition-all group relative"
+              >
+                {/* 🌟 핵심: 구 기준 샵 상세 페이지로 이동하는 투명 오버레이 링크 */}
+                <Link 
+                  href={`/${region}/${encodeURIComponent(district)}/shop/${shop.id}`}
+                  className="absolute inset-0 z-10"
+                  aria-label={`${shop.name} 상세보기`}
+                />
+
                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden shrink-0 border border-amber-500/30">
                   <img src={shop.image} alt={shop.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                 </div>
+                
                 <div className="flex-1 min-w-0">
                   <h3 className="font-extrabold text-sm md:text-base text-white truncate group-hover:text-amber-400 transition-colors">
                     {shop.name}
@@ -216,7 +228,11 @@ export default function RegionalClientUI({ region, district, dongName }: Regiona
                   <p className="text-[11px] text-gray-300 mt-1 line-clamp-2">{shop.desc}</p>
                   <div className="mt-2.5 flex items-center justify-between">
                     <span className="text-xs font-black text-amber-300">{shop.price}</span>
-                    <a href={`tel:${shop.phone}`} className="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-black text-xs px-3.5 py-1.5 rounded-xl shadow transition-all relative z-10">
+                    {/* 🌟 전화버튼: 카드 링크보다 위에 위치하도록 z-20 설정 */}
+                    <a 
+                      href={`tel:${shop.phone}`} 
+                      className="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-black text-xs px-3.5 py-1.5 rounded-xl shadow transition-all relative z-20"
+                    >
                       전화연결
                     </a>
                   </div>
