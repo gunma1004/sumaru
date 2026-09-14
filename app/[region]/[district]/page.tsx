@@ -12,7 +12,7 @@ interface PageProps {
 }
 
 function getRegionKoreanName(region: string): string {
-  switch (region) {
+  switch (region.toLowerCase()) {
     case "seoul": return "서울";
     case "incheon": return "인천";
     case "gyeonggi": return "경기";
@@ -20,13 +20,20 @@ function getRegionKoreanName(region: string): string {
   }
 }
 
-function getRegionFullName(region: string): string {
-  switch (region) {
-    case "seoul": return "서울특별시";
-    case "incheon": return "인천광역시";
-    case "gyeonggi": return "경기도";
-    default: return "";
+// 🛠️ 이중 URL 인코딩까지 안전하게 풀어내는 디코더
+function safeDecode(str: string): string {
+  if (!str) return "";
+  let decoded = str;
+  try {
+    decoded = decodeURIComponent(decodeURIComponent(str));
+  } catch {
+    try {
+      decoded = decodeURIComponent(str);
+    } catch {
+      decoded = str;
+    }
   }
+  return decoded.trim();
 }
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
@@ -34,71 +41,53 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   const resolvedSearchParams = await searchParams;
   
   const { region, district } = resolvedParams;
-  const dongName = resolvedSearchParams.dong ? decodeURIComponent(resolvedSearchParams.dong) : "";
-  const districtName = decodeURIComponent(district);
   const regionName = getRegionKoreanName(region);
+  const districtName = safeDecode(district);
+  const dongName = resolvedSearchParams.dong ? safeDecode(resolvedSearchParams.dong) : "";
 
   const locationKeyword = `${regionName} ${districtName} ${dongName}`.trim();
   const simpleLocation = dongName ? `${districtName} ${dongName}` : districtName;
 
-  const charSum = (locationKeyword + dongName + districtName).split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const variantIndex = charSum % 20;
+  const charSum = (locationKeyword + districtName).split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const variantIndex = charSum % 10;
 
-  // 🌟 스팸 트리거(홈케어/방문/24시/선입금) 완전 배제, 마사지/웰니스/스웨디시/타이마사지 중심
+  // 🌟 스팸 키워드 배제 + 구 단위 웰니스 마사지 배리에이션
   const titleVariants = [
     `${locationKeyword} 마사지 제휴 안내 | 웰니스 스웨디시 & 타이마사지 - 투데이쿡`,
-    `[투데이쿡] ${locationKeyword} 테라피 안내 · 안심 정찰제 바디케어`,
-    `${simpleLocation} 웰니스 마사지 전문 가이드 | ${regionName} 프라이빗 힐링 케어`,
-    `${locationKeyword} 제휴업체 정보 및 정직한 테라피 안내 - 투데이쿡`,
-    `${locationKeyword} 힐링 마사지 가이드 | 타이마사지·아로마·스웨디시 전문`,
-    `투데이쿡 | ${simpleLocation} 안심 힐링 테라피 & 마사지 코스`,
-    `${locationKeyword} 바디케어 안내 · 정직하고 편안한 웰니스 휴식 가이드`,
-    `${regionName} ${simpleLocation} 제휴 마사지 코스 및 프로그램 안내`,
-    `${locationKeyword} 마사지 안내 | 프라이빗 1:1 맞춤형 웰니스 테라피`,
-    `[힐링 가이드] ${locationKeyword} 추천 제휴 테라피 모음 · 투데이쿡`,
-    `${simpleLocation} 릴렉싱 마사지 | 정직한 힐링 테라피 가이드`,
-    `${locationKeyword} 쾌적한 힐링 바디케어를 안내합니다 - 투데이쿡`,
-    `프라이빗 힐링 ${locationKeyword} 마사지 | 타이마사지·아로마·스웨디시`,
-    `${locationKeyword} 엄선된 제휴 마사지 업체 및 요금 안내`,
-    `${simpleLocation} 마사지 안내 | 안심 웰니스 테라피 프로그램`,
-    `${locationKeyword} 정직한 마사지 정보 가이드 | 투데이쿡 공식`,
-    `[투데이쿡] ${locationKeyword} 베테랑 테라피스트 마사지 케어`,
-    `${locationKeyword} 바디케어 가이드 | 스웨디시·아로마 마사지 안내`,
-    `${simpleLocation} 편안한 휴식을 돕는 웰니스 힐링 마사지`,
-    `${locationKeyword} 정찰제 바디케어 & 테라피 정보 - 투데이쿡`
+    `${simpleLocation} 웰니스 마사지 추천 코스 및 프로그램 안내 · 투데이쿡`,
+    `${locationKeyword} 아로마 & 스웨디시 힐링 테라피 안내 - 투데이쿡`,
+    `${simpleLocation} 정통 타이마사지 및 릴렉스 바디케어 | 투데이쿡`,
+    `${locationKeyword} 프라이빗 웰니스 힐링 마사지 제휴점 - 투데이쿡`,
+    `${simpleLocation} 전신 힐링 마사지 코스 및 정찰제 가격 안내 · 투데이쿡`,
+    `${locationKeyword} 1:1 맞춤형 바디케어 & 웰니스 테라피 가이드 - 투데이쿡`,
+    `${simpleLocation} 편안한 힐링 마사지 제휴업체 정보 | 투데이쿡`,
+    `${locationKeyword} 쾌적한 스웨디시 & 아로마 웰니스 안내 - 투데이쿡`,
+    `${simpleLocation} 웰니스 바디 테라피 및 정찰제 코스 가이드 · 투데이쿡`
   ];
 
   const descriptionVariants = [
     `${locationKeyword} 쾌적한 웰니스 마사지 안내! 타이마사지, 아로마, 스웨디시 제휴업체의 프로그램과 정찰제 코스 정보를 확인하세요.`,
-    `프라이빗한 피로 회복! ${locationKeyword} 인근 테라피 가이드. 베테랑 테라피스트의 맞춤 힐링 마사지 코스를 안내합니다.`,
-    `${locationKeyword} 전지역 마사지 정보. 부담 없는 안심 시스템과 정직한 코스 정보를 제공하는 투데이쿡 공식 가이드입니다.`,
-    `${simpleLocation} 고객님을 위한 안심 마사지 프로그램. 스웨디시, 아로마 릴렉싱 정보 및 상세 요금표를 확인하세요.`,
-    `${locationKeyword} 마사지 정보를 찾고 계신가요? 투명한 정찰제 운영으로 편안하게 즐기는 프라이빗 테라피 가이드입니다.`,
-    `지친 일상의 피로를 덜어줄 ${locationKeyword} 마사지 안내. 베테랑 테라피스트의 품격 있는 웰니스 서비스를 경험해 보세요.`,
-    `${locationKeyword} 어디서나 편안하게 확인하는 마사지 정보! 엄선된 힐링 바디케어와 스웨디시 코스를 소개합니다.`,
-    `${simpleLocation} 마사지 및 테라피 전문 제휴업체 모음. 프라이빗한 공간에서 누리는 프리미엄 웰니스 프로그램.`,
-    `${locationKeyword} 인근 신뢰할 수 있는 바디케어 정보. 타이마사지, 아로마, 전신 오일 테라피까지 한눈에 비교하세요.`,
-    `투데이쿡에서 안내하는 ${locationKeyword} 안심 웰니스 서비스! 투명한 코스 구성과 정직한 요금 안내를 제공합니다.`,
-    `${locationKeyword} 마사지 종합 안내. 맞춤형 힐링 테라피로 묵은 피로를 부드럽게 해소해 드립니다.`,
-    `${simpleLocation} 마사지 코스 및 프로그램 안내. 친절한 안내와 검증된 제휴업체 정보로 만족도를 높여드립니다.`,
-    `${locationKeyword} 릴렉싱 프로그램. 프라이빗한 맞춤 마사지로 심신의 편안함과 바디 밸런스를 찾아드립니다.`,
-    `${locationKeyword} 제휴업체 가이드. 쾌적한 환경에서 진행되는 검증된 테라피 정보만 선별하여 전달합니다.`,
-    `${simpleLocation} 편안하게 이용하는 웰니스 마사지. 타이마사지, 아로마, 스웨디시 등 나에게 맞는 힐링 테라피 추천.`,
-    `${locationKeyword} 안심 마사지 안내! 정직한 프로그램과 투명한 정찰제 시스템으로 편안하게 확인하세요.`,
-    `전문 테라피스트의 손길로 누리는 ${locationKeyword} 마사지. 합리적인 코스 정보와 상세 프로그램 안내.`,
-    `${simpleLocation} 바디케어 서비스 안내. 쌓인 스트레스와 굳은 근육을 부드럽게 이완시켜 드립니다.`,
-    `${locationKeyword} 엄선된 제휴 마사지 정보 안내. 검증된 1:1 맞춤 테라피 프로그램을 제공합니다.`,
-    `${locationKeyword} 인근 쾌적한 웰니스 마사지 서비스! 친절한 상담과 신뢰할 수 있는 제휴점 정보.`
+    `${simpleLocation} 인근 편안한 힐링 테라피 가이드. 베테랑 테라피스트의 체계적인 마사지 프로그램을 투데이쿡에서 만나보세요.`,
+    `${locationKeyword} 쾌적한 웰니스 마사지 제휴점 모음. 투명한 정찰제 요금과 정성스러운 바디케어 서비스를 제공합니다.`,
+    `${simpleLocation} 맞춤형 힐링 마사지 코스 안내. 일상의 피로를 부드럽게 풀어주는 정통 스웨디시 및 아로마 테라피.`,
+    `${locationKeyword} 프라이빗 웰니스 가이드. 뭉친 근육과 스트레스를 편안하게 해소하는 최상의 휴식 코스 안내.`,
+    `${simpleLocation} 제휴 마사지 업체 정보. 100% 현장 정찰제와 쾌적한 케어 프로그램을 지금 확인하세요.`,
+    `${locationKeyword} 1:1 웰니스 바디케어 추천. 숙련된 테라피스트의 디테일한 손길로 전신 피로를 회복하세요.`,
+    `${simpleLocation} 안심 힐링 마사지 프로그램 가이드. 타이마사지와 천연 아로마 케어 정보를 한눈에 비교할 수 있습니다.`,
+    `${locationKeyword} 전문 웰니스 제휴 안내. 포근한 감성 스웨디시와 릴렉스 마사지로 활력을 충전하세요.`,
+    `${simpleLocation} 웰니스 테라피 종합 안내. 고객 만족도 높은 추천 마사지 코스와 이용 요금 안내.`
   ];
 
   const finalTitle = titleVariants[variantIndex];
   const finalDescription = descriptionVariants[variantIndex];
 
   return {
-    title: finalTitle,
+    title: {
+      // 🌟 핵심: 상위 layout.tsx의 기본 타이틀을 무시하고 이 타이틀을 강제 적용
+      absolute: finalTitle,
+    },
     description: finalDescription,
     keywords: [
-      // 🌟 스팸성 없는 100% 정상 키워드로 재구성
       `${locationKeyword} 마사지`,
       `${locationKeyword} 타이마사지`,
       `${locationKeyword} 스웨디시`,
@@ -123,8 +112,8 @@ export default async function RegionalDetailPage({ params, searchParams }: PageP
   const resolvedSearchParams = await searchParams;
 
   const reg = resolvedParams.region;
-  const dist = decodeURIComponent(resolvedParams.district);
-  const dong = resolvedSearchParams.dong ? decodeURIComponent(resolvedSearchParams.dong) : "";
+  const dist = safeDecode(resolvedParams.district);
+  const dong = resolvedSearchParams.dong ? safeDecode(resolvedSearchParams.dong) : "";
 
   return <RegionalClientUI region={reg} district={dist} dongName={dong} />;
 }
