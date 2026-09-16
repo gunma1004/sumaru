@@ -9,24 +9,22 @@ interface DongClientUIProps {
   locationTitle: string;
 }
 
-// 🌟 원본 샵 이름은 고정하되, 새로고침 시 무작위로 섞여서 5개만 노출될 전체 샵 목록
-const allDongShops = [
+// 🌟 정확히 5개의 제휴 샵 목록
+const initialDongShops = [
   { id: 1, name: "한국미녀홈타이", desc: "수도권 주요 지역 프리미엄 스웨디시 & 아로마 웰니스 테라피", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
   { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 정통 마사지 및 프라이빗 바디케어", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
   { id: 3, name: "예쁜걸홈타이", desc: "철저한 위생 관리와 쾌적한 릴렉스 아로마 테라피 프로그램", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
   { id: 4, name: "퀸즈홈테라피", desc: "전문 테라피스트들의 1:1 맞춤형 VIP 피로회복 웰니스 케어", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
-  { id: 5, name: "한국골든테라피", desc: "정직한 정찰제 운영과 편안한 힐링을 약속하는 감성 스웨디시", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" },
-  { id: 6, name: "로얄테라피", desc: "지친 일상에 활력을 불어넣어 주는 프리미엄 바디 릴렉싱 코스", phone: "0507-1280-3400", price: "90,000원부터~", image: "/shop6.jpg" },
-  { id: 7, name: "그린스파테라피", desc: "아늑하고 편안한 공간에서 즐기는 맞춤형 전신 아로마 케어", phone: "0507-1280-3511", price: "80,000원부터~", image: "/shop7.jpg" }
+  { id: 5, name: "한국골든테라피", desc: "정직한 정찰제 운영과 편안한 힐링을 약속하는 감성 스웨디시", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
 ];
 
 export default function DongClientUI({ locationTitle }: DongClientUIProps) {
-  const [displayShops, setDisplayShops] = useState<typeof allDongShops>([]);
+  const [displayShops, setDisplayShops] = useState<typeof initialDongShops>([]);
 
   useEffect(() => {
-    // 새로고침 시 샵 리스트를 무작위로 섞은 후 5개만 추출
-    const shuffled = [...allDongShops].sort(() => Math.random() - 0.5);
-    setDisplayShops(shuffled.slice(0, 5));
+    // 새로고침 시 5개의 샵 순서를 무작위로 섞어서 출력
+    const shuffled = [...initialDongShops].sort(() => Math.random() - 0.5);
+    setDisplayShops(shuffled);
   }, []);
 
   return (
@@ -46,7 +44,7 @@ export default function DongClientUI({ locationTitle }: DongClientUIProps) {
           </p>
         </section>
 
-        {/* 샵 리스트 영역 (새로고침 시 랜덤 5개 노출, 원본 샵 이름 고정) */}
+        {/* 샵 리스트 영역 (새로고침 시 5개 샵 순서 랜덤 변경) */}
         <section className="space-y-4">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <h2 className="text-sm font-extrabold text-amber-300">✨ 실시간 추천 제휴 샵 (새로고침 시 변경)</h2>
