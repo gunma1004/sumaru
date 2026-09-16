@@ -102,11 +102,11 @@ const regionData: Record<string, { name: string; districts: Record<string, { nam
   }
 };
 
-// 🌟 스팸 트리거(홈케어/방문/25분 도착/선입금) 완전 제외, 클린 웰니스 표현 적용
+// 🌟 요청하신 원본 샵 이름은 그대로 유지하되, 스팸성 문구를 제거하고 클린한 웰니스 소개로 정리
 const initialLocalShops = [
-  { id: 1, name: "한국미녀홈타이", desc: "수도권 주요지역 전문 감성 스웨디시 & 아로마 웰니스 테라피", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
-  { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 정통 타이마사지 및 프라이빗 바디케어", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
-  { id: 3, name: "예쁜걸홈타이", desc: "철저한 위생 관리와 쾌적한 릴렉스 아로마 마사지 프로그램", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
+  { id: 1, name: "한국미녀홈타이", desc: "수도권 주요 지역 프리미엄 스웨디시 & 아로마 웰니스 테라피", phone: "0507-1280-3303", price: "100,000원부터~", image: "/shop1.jpg" },
+  { id: 2, name: "너무이쁜홈타이", desc: "품격 있는 힐링을 선사하는 정통 마사지 및 프라이빗 바디케어", phone: "0507-1280-3190", price: "60,000원부터~", image: "/shop2.jpg" },
+  { id: 3, name: "예쁜걸홈타이", desc: "철저한 위생 관리와 쾌적한 릴렉스 아로마 테라피 프로그램", phone: "0507-1280-3185", price: "60,000원부터~", image: "/shop3.jpg" },
   { id: 4, name: "퀸즈홈테라피", desc: "전문 테라피스트들의 1:1 맞춤형 VIP 피로회복 웰니스 케어", phone: "0507-1280-3222", price: "60,000원부터~", image: "/shop4.jpg" },
   { id: 5, name: "한국골든테라피", desc: "정직한 정찰제 운영과 편안한 힐링을 약속하는 감성 스웨디시", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
 ];
@@ -120,6 +120,7 @@ export default function MainClientUI() {
   const [shuffledShops, setShuffledShops] = useState(initialLocalShops);
 
   useEffect(() => {
+    // 새로고침 시 샵 순서가 랜덤하게 섞이도록 설정
     const shuffled = [...initialLocalShops].sort(() => Math.random() - 0.5);
     setShuffledShops(shuffled);
   }, []);
@@ -135,7 +136,6 @@ export default function MainClientUI() {
     setSelectedDong("");
   };
 
-  // 🌟 동 선택 여부에 따라 URL 분기 (/all 제거)
   const handleSearch = () => {
     if (!selectedDistrict) {
       alert("원하시는 지역(구/시)을 먼저 선택해주세요!");
@@ -146,7 +146,6 @@ export default function MainClientUI() {
     
     const baseUrl = `/${selectedRegion}/${encodeURIComponent(districtName)}`;
     
-    // 동이 선택되었으면 '/seoul/마포구/서교동', 선택 안 했으면 '/seoul/마포구'로 이동
     const targetUrl = selectedDong 
       ? `${baseUrl}/${encodeURIComponent(selectedDong)}` 
       : baseUrl;
@@ -174,24 +173,24 @@ export default function MainClientUI() {
             
             <div className="relative z-10 space-y-3.5 max-w-xl mx-auto">
               <span className="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-black font-black text-xs tracking-widest shadow-[0_0_20px_rgba(245,158,11,0.5)]">
-                ✨ 서울 경기 인천 웰니스 마사지 플랫폼
+                ✨ 위치 테라피 - 서울 경기 인천 웰니스 플랫폼
               </span>
               <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
                 수도권 전 지역 <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-300 bg-clip-text text-transparent">프리미엄 힐링 마사지 안내</span>
               </h1>
               <p className="text-gray-200 text-xs md:text-sm font-medium drop-shadow">
-                검증된 베테랑 테라피스트의 맞춤형 바디케어! 스웨디시 및 타이마사지 정보를 한눈에 만나보세요.
+                검증된 베테랑 테라피스트의 맞춤형 바디케어! 스웨디시 및 테라피 정보를 한눈에 만나보세요.
               </p>
             </div>
           </div>
         </section>
 
-        {/* 제휴업체 리스트 섹션 */}
+        {/* 제휴업체 리스트 섹션 (새로고침 시 랜덤 5개 노출, 원본 샵 이름 고정) */}
         <section className="space-y-6">
           <div className="text-center mb-6">
             <p className="text-xs text-amber-400 font-extrabold tracking-widest uppercase">BEST RECOMMENDED SHOPS</p>
             <h2 className="text-xl md:text-2xl font-black text-white mt-1">
-              🏆 투데이쿡 추천 프리미엄 웰니스 제휴점
+              🏆 위치 테라피 추천 프리미엄 제휴점
             </h2>
           </div>
 

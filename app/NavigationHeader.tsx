@@ -15,24 +15,24 @@ export default function NavigationHeader() {
     { name: "📍 인천 지역", href: `/incheon/${encodeURIComponent("인천광역시")}` },
   ];
 
-  // 힐링 페이지 전용 빠른 이동 리스트 (수도권 대상)
+  // 웰니스 테라피 전용 빠른 이동 리스트 (수도권 대상)
   const healingRegionList = [
-    { name: "✨ 서울 힐링 홈케어", href: `/healing/seoul/${encodeURIComponent("서울특별시")}` },
-    { name: "✨ 경기 힐링 홈케어", href: `/healing/gyeonggi/${encodeURIComponent("경기도")}` },
-    { name: "✨ 인천 힐링 홈케어", href: `/healing/incheon/${encodeURIComponent("인천광역시")}` },
+    { name: "✨ 서울 웰니스 테라피", href: `/healing/seoul/${encodeURIComponent("서울특별시")}` },
+    { name: "✨ 경기 웰니스 테라피", href: `/healing/gyeonggi/${encodeURIComponent("경기도")}` },
+    { name: "✨ 인천 웰니스 테라피", href: `/healing/incheon/${encodeURIComponent("인천광역시")}` },
   ];
 
   return (
     <header className="sticky top-0 z-50 bg-[#050505]/90 backdrop-blur-xl border-b border-amber-500/20 px-4 py-3 shadow-[0_4px_20px_rgba(245,158,11,0.1)]">
       <div className="max-w-5xl mx-auto flex items-center justify-between">
         
-        {/* 로고 영역 */}
+        {/* 로고 영역 (위치 테라피) */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center font-black text-black text-sm shadow border border-amber-400">
-            뚝
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center font-black text-black text-sm shadow border border-amber-300">
+            위치
           </div>
           <span className="text-lg font-black tracking-wider bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent">
-            투데이쿡
+            위치 테라피
           </span>
         </Link>
 
@@ -71,19 +71,19 @@ export default function NavigationHeader() {
             )}
           </div>
 
-          {/* 출장 힐링 마사지 안내 드롭다운 */}
+          {/* 웰니스 테라피 안내 드롭다운 */}
           <div 
             className="relative cursor-pointer py-2"
             onMouseEnter={() => setIsHealingOpen(true)}
             onMouseLeave={() => setIsHealingOpen(false)}
           >
             <button className="hover:text-amber-400 transition-colors flex items-center gap-1 text-xs font-bold text-amber-300">
-              출장힐링케어
+              웰니스케어
               <span className="text-[10px] text-amber-400">▼</span>
             </button>
 
             {isHealingOpen && (
-              <div className="absolute top-full left-0 w-44 bg-[#121214] border border-amber-500/30 rounded-2xl shadow-2xl py-2 space-y-1 text-xs z-50">
+              <div className="absolute top-full left-0 w-48 bg-[#121214] border border-amber-500/30 rounded-2xl shadow-2xl py-2 space-y-1 text-xs z-50">
                 {healingRegionList.map((h, idx) => (
                   <Link 
                     key={idx} 
@@ -141,11 +141,11 @@ export default function NavigationHeader() {
           </div>
 
           <div className="pt-1 border-t border-white/5">
-            <span className="text-[11px] text-amber-300 font-bold block mb-2 px-1">✨ 출장 힐링 마사지 바로가기</span>
+            <span className="text-[11px] text-amber-300 font-bold block mb-2 px-1">✨ 웰니스 마사지 바로가기</span>
             <div className="grid grid-cols-3 gap-1.5">
               {healingRegionList.map((h, idx) => (
                 <Link key={idx} href={h.href} onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-center text-[11px] rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 truncate">
-                  {h.name.replace("✨ ", "")}
+                  {h.name.replace("✨ ", "").replace(" 웰니스 테라피", "")}
                 </Link>
               ))}
             </div>

@@ -2,13 +2,14 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "지역여행 가이드 | 투데이쿡 - 수도권 힐링 명소 & 드라이브 코스 안내",
-  description: "서울, 경기, 인천 수도권 주요 도시의 심신 힐링 명소와 드라이브 코스를 투데이쿡에서 확인하세요.",
+  metadataBase: new URL("https://wich-therapy.netlify.app"),
+  title: "지역여행 가이드 | 위치 테라피 - 수도권 힐링 명소 & 드라이브 코스 안내",
+  description: "서울, 경기, 인천 수도권 주요 도시의 심신 힐링 명소와 드라이브 코스를 위치 테라피에서 확인하세요.",
   openGraph: {
-    title: "지역여행 가이드 | 투데이쿡",
+    title: "지역여행 가이드 | 위치 테라피",
     description: "피로를 풀고 여유를 되찾는 수도권 주요 권역별 힐링 여행지 가이드",
-    url: "https://todaykkuk.netlify.app/travel",
-    siteName: "투데이쿡",
+    url: "https://wich-therapy.netlify.app/travel",
+    siteName: "위치 테라피",
     locale: "ko_KR",
     type: "website",
   },
@@ -49,7 +50,7 @@ export default function TravelPage() {
             수도권 힐링 여행지 안내
           </h1>
           <p className="text-xs md:text-sm text-gray-400">
-            투데이쿡이 추천하는 피로를 씻어내기 좋은 수도권 도시별 힐링 명소
+            위치 테라피가 추천하는 피로를 씻어내기 좋은 수도권 도시별 힐링 명소
           </p>
         </div>
 
@@ -94,7 +95,7 @@ export default function TravelPage() {
             href="/"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-extrabold text-xs px-6 py-3.5 rounded-xl shadow-lg hover:from-amber-400 hover:to-yellow-300 transition-all active:scale-95"
           >
-            <span>🏠</span> 투데이쿡 홈으로 돌아가기
+            <span>🏠</span> 위치 테라피 홈으로 돌아가기
           </Link>
         </div>
 

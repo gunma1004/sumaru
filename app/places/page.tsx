@@ -2,13 +2,14 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "맛집·숙소 가이드 | 투데이쿡 - 수도권 힐링 공간 & 핫플레이스 안내",
-  description: "서울·경기·인천 수도권 주요 거점 지역의 검증된 맛집과 편안한 숙소·휴식 공간 정보를 투데이쿡에서 확인하세요.",
+  metadataBase: new URL("https://wich-therapy.netlify.app"),
+  title: "맛집·숙소 가이드 | 위치 테라피 - 수도권 힐링 공간 & 핫플레이스 안내",
+  description: "서울·경기·인천 수도권 주요 거점 지역의 검증된 맛집과 편안한 숙소·휴식 공간 정보를 위치 테라피에서 확인하세요.",
   openGraph: {
-    title: "맛집·숙소 가이드 | 투데이쿡",
+    title: "맛집·숙소 가이드 | 위치 테라피",
     description: "서울 경기 인천 주요 지역 검증된 맛집 및 휴식 공간 안내",
-    url: "https://todaykkuk.netlify.app/places",
-    siteName: "투데이쿡",
+    url: "https://wich-therapy.netlify.app/places",
+    siteName: "위치 테라피",
     locale: "ko_KR",
     type: "website",
   },
@@ -43,7 +44,7 @@ export default function PlacesPage() {
             내 주변 맛집 & 편안한 휴식 공간
           </h1>
           <p className="text-xs md:text-sm text-gray-400">
-            투데이쿡이 추천하는 수도권 지역별 검증된 핫플레이스와 편안한 쉼터 가이드
+            위치 테라피가 추천하는 수도권 지역별 검증된 핫플레이스와 편안한 쉼터 가이드
           </p>
         </div>
 
@@ -80,7 +81,7 @@ export default function PlacesPage() {
             href="/"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-extrabold text-xs px-5 py-3 rounded-xl shadow-lg hover:from-amber-400 hover:to-yellow-300 transition-all"
           >
-            <span>🏠</span> 투데이쿡 홈으로 돌아가기
+            <span>🏠</span> 위치 테라피 홈으로 돌아가기
           </Link>
         </div>
 

@@ -2,13 +2,14 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "서비스 안내 | 투데이쿡 - 수도권 방문 홈케어 & 힐링 테라피 코스",
-  description: "타이, 아로마 오일 케어, VIP 스웨디시, 베테랑 힐러 코스 등 투데이쿡의 고품격 피로회복 힐링 프로그램을 확인하세요.",
+  metadataBase: new URL("https://wich-therapy.netlify.app"),
+  title: "서비스 안내 | 위치 테라피 - 수도권 프리미엄 힐링 테라피 코스",
+  description: "타이, 아로마 오일 케어, VIP 스웨디시, 베테랑 힐러 코스 등 위치 테라피의 고품격 피로회복 힐링 프로그램을 확인하세요.",
   openGraph: {
-    title: "서비스 안내 | 투데이쿡",
-    description: "투데이쿡이 제공하는 맞춤형 방문 테라피 & 프리미엄 바디케어 프로그램 안내",
-    url: "https://todaykkuk.netlify.app/services",
-    siteName: "투데이쿡",
+    title: "서비스 안내 | 위치 테라피",
+    description: "위치 테라피가 제공하는 맞춤형 방문 테라피 & 프리미엄 바디케어 프로그램 안내",
+    url: "https://wich-therapy.netlify.app/services",
+    siteName: "위치 테라피",
     locale: "ko_KR",
     type: "website",
   },
@@ -52,10 +53,10 @@ export default function ServicesPage() {
             PREMIUM CARE SERVICE
           </span>
           <h1 className="text-3xl md:text-4xl font-black text-white">
-            투데이쿡 코스별 서비스 안내
+            위치 테라피 코스별 서비스 안내
           </h1>
           <p className="text-xs md:text-sm text-gray-400">
-            고객님의 컨디션과 취향에 맞춘 수도권 24시 최상의 힐링 프로그램
+            고객님의 컨디션과 취향에 맞춘 수도권 최상의 힐링 프로그램
           </p>
         </div>
 
@@ -65,7 +66,7 @@ export default function ServicesPage() {
             ✨ 100% 후불제 & 철저한 위생 관리 시스템
           </p>
           <p className="text-xs text-gray-300 leading-relaxed max-w-xl mx-auto">
-            투데이쿡의 모든 제휴점은 최고급 천연 오일과 소독된 케어 용품을 사용하며, 관리사 도착 전 선입금을 절대 요구하지 않습니다.
+            위치 테라피의 모든 제휴점은 최고급 천연 오일과 소독된 케어 용품을 사용하며, 방문 전 선입금을 절대 요구하지 않습니다.
           </p>
         </div>
 
@@ -112,7 +113,7 @@ export default function ServicesPage() {
             href="/"
             className="w-full sm:w-auto text-center bg-neutral-900 hover:bg-neutral-800 text-gray-300 hover:text-white border border-white/10 font-bold text-xs px-6 py-3.5 rounded-xl transition-all"
           >
-            🏠 홈으로 돌아가기
+            🏠 위치 테라피 홈으로 돌아가기
           </Link>
         </div>
 
