@@ -10,29 +10,29 @@ export default function NavigationHeader() {
 
   // 서울, 경기, 인천 수도권 지역 중심
   const regionList = [
-    { name: "📍 서울 지역", href: `/seoul/${encodeURIComponent("서울특별시")}` },
-    { name: "📍 경기 지역", href: `/gyeonggi/${encodeURIComponent("경기도")}` },
-    { name: "📍 인천 지역", href: `/incheon/${encodeURIComponent("인천광역시")}` },
+    { name: "📍 서울 지역", href: `/seoul/${encodeURIComponent("서울")}` },
+    { name: "📍 경기 지역", href: `/gyeonggi/${encodeURIComponent("경기")}` },
+    { name: "📍 인천 지역", href: `/incheon/${encodeURIComponent("인천")}` },
   ];
 
   // 웰니스 테라피 전용 빠른 이동 리스트 (수도권 대상)
   const healingRegionList = [
-    { name: "✨ 서울 웰니스 테라피", href: `/healing/seoul/${encodeURIComponent("서울특별시")}` },
-    { name: "✨ 경기 웰니스 테라피", href: `/healing/gyeonggi/${encodeURIComponent("경기도")}` },
-    { name: "✨ 인천 웰니스 테라피", href: `/healing/incheon/${encodeURIComponent("인천광역시")}` },
+    { name: "✨ 서울 웰니스 테라피", href: `/healing/seoul/${encodeURIComponent("서울")}` },
+    { name: "✨ 경기 웰니스 테라피", href: `/healing/gyeonggi/${encodeURIComponent("경기")}` },
+    { name: "✨ 인천 웰니스 테라피", href: `/healing/incheon/${encodeURIComponent("인천")}` },
   ];
 
   return (
     <header className="sticky top-0 z-50 bg-[#050505]/90 backdrop-blur-xl border-b border-amber-500/20 px-4 py-3 shadow-[0_4px_20px_rgba(245,158,11,0.1)]">
       <div className="max-w-5xl mx-auto flex items-center justify-between">
         
-        {/* 로고 영역 (위치 테라피) */}
+        {/* 로고 영역 (수마루) */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center font-black text-black text-sm shadow border border-amber-300">
-            위치
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center font-black text-black text-xs shadow border border-amber-300">
+            수마루
           </div>
           <span className="text-lg font-black tracking-wider bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent">
-            위치 테라피
+            수마루
           </span>
         </Link>
 

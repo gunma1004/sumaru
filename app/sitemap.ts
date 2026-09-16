@@ -1,8 +1,8 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // 🌐 실제 서비스 도메인 주소로 통일
-  const baseUrl = 'https://wich-therapy.netlify.app';
+  // 🌐 새로운 수마루 서비스 도메인 주소로 통일
+  const baseUrl = 'https://sumaru.netlify.app';
 
   // 1. 메인 홈 페이지
   const mainRoute: MetadataRoute.Sitemap = [
@@ -36,58 +36,58 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  // 4. 수도권 구·시 주요 권역 목록
+  // 4. 수도권 구·시 주요 권역 목록 (시·구·군 접미사 제거 적용)
   const regionList = [
     // 서울 주요 권역
-    { region: 'seoul', district: '종로구' },
-    { region: 'seoul', district: '중구' },
-    { region: 'seoul', district: '용산구' },
-    { region: 'seoul', district: '성동구' },
-    { region: 'seoul', district: '광진구' },
-    { region: 'seoul', district: '동대문구' },
-    { region: 'seoul', district: '중랑구' },
-    { region: 'seoul', district: '성북구' },
-    { region: 'seoul', district: '강북구' },
-    { region: 'seoul', district: '도봉구' },
-    { region: 'seoul', district: '노원구' },
-    { region: 'seoul', district: '은평구' },
-    { region: 'seoul', district: '서대문구' },
-    { region: 'seoul', district: '마포구' },
-    { region: 'seoul', district: '양천구' },
-    { region: 'seoul', district: '강서구' },
-    { region: 'seoul', district: '구로구' },
-    { region: 'seoul', district: '금천구' },
-    { region: 'seoul', district: '영등포구' },
-    { region: 'seoul', district: '동작구' },
-    { region: 'seoul', district: '관악구' },
-    { region: 'seoul', district: '서초구' },
-    { region: 'seoul', district: '강남구' },
-    { region: 'seoul', district: '송파구' },
-    { region: 'seoul', district: '강동구' },
+    { region: 'seoul', district: '종로' },
+    { region: 'seoul', district: '중' },
+    { region: 'seoul', district: '용산' },
+    { region: 'seoul', district: '성동' },
+    { region: 'seoul', district: '광진' },
+    { region: 'seoul', district: '동대문' },
+    { region: 'seoul', district: '중랑' },
+    { region: 'seoul', district: '성북' },
+    { region: 'seoul', district: '강북' },
+    { region: 'seoul', district: '도봉' },
+    { region: 'seoul', district: '노원' },
+    { region: 'seoul', district: '은평' },
+    { region: 'seoul', district: '서대문' },
+    { region: 'seoul', district: '마포' },
+    { region: 'seoul', district: '양천' },
+    { region: 'seoul', district: '강서' },
+    { region: 'seoul', district: '구로' },
+    { region: 'seoul', district: '금천' },
+    { region: 'seoul', district: '영등포' },
+    { region: 'seoul', district: '동작' },
+    { region: 'seoul', district: '관악' },
+    { region: 'seoul', district: '서초' },
+    { region: 'seoul', district: '강남' },
+    { region: 'seoul', district: '송파' },
+    { region: 'seoul', district: '강동' },
 
     // 경기 주요 권역
-    { region: 'gyeonggi', district: '수원시 장안구' },
-    { region: 'gyeonggi', district: '수원시 권선구' },
-    { region: 'gyeonggi', district: '수원시 팔달구' },
-    { region: 'gyeonggi', district: '수원시 영통구' },
-    { region: 'gyeonggi', district: '성남시 수정구' },
-    { region: 'gyeonggi', district: '성남시 중원구' },
-    { region: 'gyeonggi', district: '성남시 분당구' },
-    { region: 'gyeonggi', district: '고양시 덕양구' },
-    { region: 'gyeonggi', district: '고양시 일산동구' },
-    { region: 'gyeonggi', district: '고양시 일산서구' },
-    { region: 'gyeonggi', district: '용인시 수지구' },
-    { region: 'gyeonggi', district: '용인시 기흥구' },
-    { region: 'gyeonggi', district: '부천시 원미구' },
+    { region: 'gyeonggi', district: '수원 장안' },
+    { region: 'gyeonggi', district: '수원 권선' },
+    { region: 'gyeonggi', district: '수원 팔달' },
+    { region: 'gyeonggi', district: '수원 영통' },
+    { region: 'gyeonggi', district: '성남 수정' },
+    { region: 'gyeonggi', district: '성남 중원' },
+    { region: 'gyeonggi', district: '성남 분당' },
+    { region: 'gyeonggi', district: '고양 덕양' },
+    { region: 'gyeonggi', district: '고양 일산동' },
+    { region: 'gyeonggi', district: '고양 일산서' },
+    { region: 'gyeonggi', district: '용인 수지' },
+    { region: 'gyeonggi', district: '용인 기흥' },
+    { region: 'gyeonggi', district: '부천 원미' },
 
     // 인천 주요 권역
-    { region: 'incheon', district: '중구' },
-    { region: 'incheon', district: '미추홀구' },
-    { region: 'incheon', district: '연수구' },
-    { region: 'incheon', district: '남동구' },
-    { region: 'incheon', district: '부평구' },
-    { region: 'incheon', district: '계양구' },
-    { region: 'incheon', district: '서구' },
+    { region: 'incheon', district: '중' },
+    { region: 'incheon', district: '미추홀' },
+    { region: 'incheon', district: '연수' },
+    { region: 'incheon', district: '남동' },
+    { region: 'incheon', district: '부평' },
+    { region: 'incheon', district: '계양' },
+    { region: 'incheon', district: '서' },
   ];
 
   // A. 기본 지역별 상세 페이지 라우트
