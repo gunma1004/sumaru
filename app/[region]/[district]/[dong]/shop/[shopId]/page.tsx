@@ -6,7 +6,7 @@ interface PageProps {
     region: string;
     district: string;
     shopId: string;
-  >>;
+  }>; // 👈 닫는 괄호를 올바르게 수정했습니다.
 }
 
 // 🌐 영문 지역 코드를 한글 지역명으로 변환
