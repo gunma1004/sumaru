@@ -53,27 +53,27 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   const charSum = (locationKeyword + districtName).split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
   const variantIndex = charSum % 20;
 
-  // 🌟 스팸 및 '출장' 키워드 배제, '마사지' 중심의 20개 고유 타이틀 리스트
+  // 🌟 모든 타이틀에 '마사지' 단어가 꼭 들어가도록 구성한 20개의 고유 타이틀 리스트
   const titleVariants = [
     `${locationKeyword} 마사지 제휴 안내 | 웰니스 스웨디시 & 타이마사지 - 수마루`,
-    `${simpleLocation} 웰니스 마사지 추천 코스 및 프로그램 정보 · 수마루`,
-    `${locationKeyword} 아로마 & 스웨디시 힐링 테라피 안내 - 수마루`,
+    `${simpleLocation} 추천 마사지 코스 및 웰니스 프로그램 정보 · 수마루`,
+    `${locationKeyword} 아로마 & 스웨디시 마사지 힐링 테라피 안내 - 수마루`,
     `${simpleLocation} 정통 타이마사지 및 릴렉스 바디케어 | 수마루`,
     `${locationKeyword} 프라이빗 웰니스 힐링 마사지 제휴점 - 수마루`,
     `${simpleLocation} 전신 힐링 마사지 코스 및 정찰제 가격 안내 · 수마루`,
-    `${locationKeyword} 1:1 맞춤형 바디케어 & 웰니스 테라피 가이드 - 수마루`,
+    `${locationKeyword} 1:1 맞춤형 마사지 바디케어 & 웰니스 가이드 - 수마루`,
     `${simpleLocation} 편안한 힐링 마사지 제휴업체 정보 | 수마루`,
     `${locationKeyword} 쾌적한 스웨디시 & 아로마 마사지 안내 - 수마루`,
-    `${simpleLocation} 웰니스 바디 테라피 및 정찰제 코스 가이드 · 수마루`,
-    `${locationKeyword} 전문 테라피스트 제휴마사지샵 리스트 - 수마루`,
+    `${simpleLocation} 웰니스 바디 마사지 테라피 및 정찰제 코스 가이드 · 수마루`,
+    `${locationKeyword} 전문 테라피스트 제휴 마사지 샵 리스트 - 수마루`,
     `${simpleLocation} 편안한 휴식을 위한 아로마 바디케어 마사지 안내 - 수마루`,
-    `${locationKeyword} 감성 스웨디시 및 힐링 프로그램 요약 - 수마루`,
+    `${locationKeyword} 감성 스웨디시 및 마사지 힐링 프로그램 요약 - 수마루`,
     `${simpleLocation} 도심 속 힐링 테라피 및 마사지 안내 - 수마루`,
-    `${locationKeyword} 맞춤형 바디 테라피 제휴 정보 - 수마루`,
+    `${locationKeyword} 맞춤형 바디 마사지 테라피 제휴 정보 - 수마루`,
     `${simpleLocation} 쾌적하고 조용한 마사지 샵 가이드 - 수마루`,
-    `${locationKeyword} 프리미엄 웰니스 케어 프로그램 안내 - 수마루`,
-    `${simpleLocation} 일상 회복을 위한 바디 릴렉싱 코스 - 수마루`,
-    `${locationKeyword} 정통 테라피 및 스웨디시 제휴 가이드 - 수마루`,
+    `${locationKeyword} 프리미엄 웰니스 마사지 케어 프로그램 안내 - 수마루`,
+    `${simpleLocation} 일상 회복을 위한 바디 릴렉싱 마사지 코스 - 수마루`,
+    `${locationKeyword} 정통 테라피 및 스웨디시 마사지 제휴 가이드 - 수마루`,
     `${locationKeyword} 신뢰할 수 있는 웰니스 마사지 정보 - 수마루`
   ];
 
