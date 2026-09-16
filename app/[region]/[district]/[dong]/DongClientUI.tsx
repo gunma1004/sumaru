@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 interface DongClientUIProps {
   region: string;
@@ -18,7 +19,7 @@ const initialDongShops = [
   { id: 5, name: "한국골든테라피", desc: "정직한 정찰제 운영과 편안한 힐링을 약속하는 감성 스웨디시", phone: "0507-1280-3360", price: "110,000원부터~", image: "/shop5.jpg" }
 ];
 
-export default function DongClientUI({ locationTitle }: DongClientUIProps) {
+export default function DongClientUI({ region, district, dong, locationTitle }: DongClientUIProps) {
   const [displayShops, setDisplayShops] = useState<typeof initialDongShops>([]);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export default function DongClientUI({ locationTitle }: DongClientUIProps) {
           </p>
         </section>
 
-        {/* 샵 리스트 영역 (새로고침 시 5개 샵 순서 랜덤 변경) */}
+        {/* 샵 리스트 영역 (클릭 시 샵 상세 페이지로 이동) */}
         <section className="space-y-4">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <h2 className="text-sm font-extrabold text-amber-300">✨ 실시간 추천 제휴 샵 (새로고침 시 변경)</h2>
@@ -53,23 +54,27 @@ export default function DongClientUI({ locationTitle }: DongClientUIProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {displayShops.map((lShop) => (
-              <div key={lShop.id} className="bg-gradient-to-br from-[#161619] to-[#101013] border border-amber-500/25 rounded-2xl p-4 flex gap-4 items-center shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+              <Link 
+                key={lShop.id} 
+                href={`/${region}/${encodeURIComponent(district)}/${encodeURIComponent(dong)}/shop/${lShop.id}`}
+                className="bg-gradient-to-br from-[#161619] to-[#101013] border border-amber-500/25 rounded-2xl p-4 flex gap-4 items-center shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:border-amber-500 transition-all cursor-pointer group"
+              >
                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl bg-gray-800 border border-amber-500/30 flex-shrink-0 overflow-hidden">
-                  <img src={lShop.image} alt={lShop.name} className="w-full h-full object-cover" />
+                  <img src={lShop.image} alt={lShop.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-extrabold text-sm md:text-base text-white truncate">
+                  <h3 className="font-extrabold text-sm md:text-base text-white truncate group-hover:text-amber-400 transition-colors">
                     {lShop.name}
                   </h3>
                   <p className="text-[11px] text-gray-300 mt-1 line-clamp-2">{lShop.desc}</p>
-                  <div className="mt-2.5 flex items-center justify-between">
+                  <div className="mt-2.5 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
                     <span className="text-xs font-black text-amber-300">{lShop.price}</span>
                     <a href={`tel:${lShop.phone}`} className="bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-black text-xs px-3.5 py-1.5 rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all">
                       전화연결
                     </a>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
@@ -83,7 +88,6 @@ export default function DongClientUI({ locationTitle }: DongClientUIProps) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            
             <article className="bg-[#121217] border border-white/10 rounded-2xl p-5 space-y-3 hover:border-amber-500/40 transition-colors">
               <span className="inline-block px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-300 text-[10px] font-bold">아로마 테라피</span>
               <h3 className="font-extrabold text-sm text-white">천연 에센셜 오일의 릴렉싱 효과</h3>
@@ -107,7 +111,6 @@ export default function DongClientUI({ locationTitle }: DongClientUIProps) {
                 장시간 앉아있는 현대인들에게 나타나는 목과 어깨의 긴장. 주기적인 바디케어와 가벼운 스트레칭 병행으로 최상의 컨디션을 유지해 보세요.
               </p>
             </article>
-
           </div>
         </section>
 
