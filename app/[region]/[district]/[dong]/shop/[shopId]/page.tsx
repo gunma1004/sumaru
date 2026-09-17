@@ -43,7 +43,83 @@ function parseLocationText(region: string, district: string, dong: string): stri
   return `${regionName} ${decodedDistrict} ${decodedDong}`.replace(/\s+/g, " ").trim();
 }
 
-// 💎 '출장'과 '마사지'가 붙지 않도록 분산시킨 5개 제휴샵 데이터
+// 🌟 1. 수식어 300개 이상 풀 생성기 ('출장' 키워드 분산 포함)
+function getModifiersPool(): string[] {
+  const baseAdjectives = [
+    "프라이빗한", "전문적인", "쾌적한 공간의", "안락한 분위기 속", "정성 어린 손길의", 
+    "신뢰할 수 있는", "차분한 힐링", "품격 있는", "맞춤형 바디케어", "일상 회복을 위한",
+    "엄선된 제휴점의", "편안한 휴식을 선사하는", "체계적인 프로그램의", "도심 속 오아시스", "부드러운 릴렉싱",
+    "고품격 웰니스", "피로 회복 맞춤형", "안정감 있는", "조용하고 아늑한", "에너지 충전을 위한",
+    "릴렉싱 바디케어", "프리미엄 힐링", "상쾌한 활력을 주는", "정성 가득한", "지친 몸을 위한"
+  ];
+  const intensityWords = [
+    "깊은", "부드러운", "섬세한", "꼼꼼한", "완벽한", 
+    "탁월한", "특별한", "차별화된", "노련한", "깔끔한",
+    "포근한", "산뜻한"
+  ];
+  const pool: string[] = [];
+  for (const adj of baseAdjectives) {
+    for (const int of intensityWords) {
+      pool.push(`신속한 출장 서비스를 제공하는 ${int} ${adj}`);
+      pool.push(`편안한 출장 홈케어를 지향하는 ${int} ${adj}`);
+      pool.push(`고객 맞춤형 출장 케어를 선사하는 ${int} ${adj}`);
+    }
+  }
+  return pool;
+}
+
+// 🌟 2. 서비스 종류 150개 풀 생성기 ('출장'과 '마사지'가 분산된 형태)
+function getServiceTypesPool(): string[] {
+  const coreTechniques = ["스웨디시", "아로마", "타이", "스포츠", "힐링", "바디케어", "릴렉싱", "웰니스", "전문", "프리미엄", "감성", "토탈"];
+  const styles = [
+    "감성 마사지 코스", "맞춤형 마사지 프로그램", "전신 관리 마사지", "전문 테크닉 마사지", 
+    "집중 이완 마사지", "릴렉스 마사지 과정", "힐링 마사지 프로그램", "프리미엄 바디 마사지", 
+    "맞춤형 바디 마사지", "토탈 마사지 솔루션", "바디 릴렉싱 마사지", "시그니처 마사지"
+  ];
+  const pool: string[] = [];
+  for (const tech of coreTechniques) {
+    for (const style of styles) {
+      pool.push(`${tech} 기반의 ${style}`);
+      pool.push(`${tech} 전문 ${style}`);
+      if (pool.length >= 150) break;
+    }
+    if (pool.length >= 150) break;
+  }
+  return pool;
+}
+
+// 🌟 3. 상세 설명 100개 풀 생성기 ('출장'과 '마사지'가 문장 내에서 분산된 형태)
+function getDescriptionsPool(): string[] {
+  const actions = [
+    "숙련된 테라피스트가 고객 계신 곳으로 직접 출장하여 진행하는 전문 마사지 프로그램은", 
+    "엄선된 제휴 샵에서 출장 형태로 제공하는 맞춤형 마사지 서비스는", 
+    "지친 일상 속에서 편안하게 불러보는 출장 힐링 마사지 코스는", 
+    "안락한 공간에서 즐기는 전문적인 출장 테라피 마사지는", 
+    "체계적인 손길을 통해 출장 서비스로 제공되는 프라이빗 마사지 솔루션은", 
+    "부드러운 테크닉이 돋보이는 릴렉스 중심의 출장 바디 마사지 안내는"
+  ];
+  const effects = [
+    "몸과 마음의 피로를 부드럽게 씻어내 줍니다.",
+    "온전한 휴식과 재충전의 시간을 선사합니다.",
+    "지친 신체 리듬을 편안하게 되찾아드립니다.",
+    "일상의 스트레스를 말끔히 해소해 줍니다.",
+    "최상의 릴렉스와 안락함을 제공합니다.",
+    "몸의 긴장을 풀고 가벼운 활력을 채워줍니다.",
+    "오래도록 지속되는 편안한 안정감을 전해드립니다.",
+    "누적된 근육의 긴장을 개운하게 이완시켜 줍니다."
+  ];
+  const pool: string[] = [];
+  for (const act of actions) {
+    for (const eff of effects) {
+      pool.push(`${act} ${eff}`);
+      if (pool.length >= 100) break;
+    }
+    if (pool.length >= 100) break;
+  }
+  return pool;
+}
+
+// 💎 5개 제휴샵 데이터 유지
 const shopData: Record<
   string,
   {
@@ -170,7 +246,6 @@ const shopData: Record<
   },
 };
 
-// 🎯 동 단위 메타데이터 생성 ('출장'과 '마사지' 분산 및 '마사지' 필수 포함, 도메인: sumaru.netlify.app)
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const { region, district, dong, shopId } = resolvedParams;
@@ -178,78 +253,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const locationPrefix = parseLocationText(region, district, dong);
 
-  const charSum = (locationPrefix + shop.name + shopId + "sumaru_dong_shop_seo").split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const variantIndex = charSum % 30;
+  const modifiersPool = getModifiersPool();
+  const serviceTypesPool = getServiceTypesPool();
+  const descriptionsPool = getDescriptionsPool();
 
-  // 🌟 샵 이름이 빠지고 '출장'과 '마사지'가 분리되며 '마사지'가 필수로 들어가는 30개 고유 타이틀
-  const titleVariants = [
-    `${locationPrefix} 지역 맞춤 출장 타이 방문 마사지 24시 안내 - 수마루`,
-    `${locationPrefix} 전문 출장 아로마 테라피 및 방문 마사지 제휴 안내 · 수마루`,
-    `${locationPrefix} 출장 릴렉스 바디 마사지 추천 코스 정보 | 수마루`,
-    `${locationPrefix} 감성 스웨디시 출장 방문 케어 및 마사지 - 수마루`,
-    `${locationPrefix} 출장 전신 힐링 바디 마사지 24시 예약 안내 · 수마루`,
-    `${locationPrefix} 딥티슈 피로회복 출장 케어 및 방문 마사지 - 수마루`,
-    `${locationPrefix} 홈케어 출장 방문형 바디 마사지 정찰제 | 수마루`,
-    `${locationPrefix} 맞춤형 출장 릴렉스 마사지 프로그램 안내 · 수마루`,
-    `${locationPrefix} 건식 & 아로마 전문 출장 마사지 제휴샵 - 수마루`,
-    `${locationPrefix} 프리미엄 감성 출장 방문 바디케어 및 마사지 24시간 | 수마루`,
-    `${locationPrefix} 순환 케어 중심 맞춤형 출장 마사지 - 수마루`,
-    `${locationPrefix} 스트레스 해소 웰니스 출장 방문 마사지 테라피 · 수마루`,
-    `${locationPrefix} 1인 프라이빗 출장 방문 마사지 가이드 | 수마루`,
-    `${locationPrefix} 바디 밸런스 회복 출장 케어 마사지 프로그램 - 수마루`,
-    `${locationPrefix} 안심 후불제 출장 전신 마사지 및 방문 서비스 · 수마루`,
-    `${locationPrefix} 림프 순환 아로마 출장 방문 마사지 테라피 | 수마루`,
-    `${locationPrefix} 딥릴렉스 프리미엄 출장 바디 마사지 - 수마루`,
-    `${locationPrefix} 소프트 힐링 출장 바디 마사지 및 방문 안내 · 수마루`,
-    `${locationPrefix} 쾌적한 공간 출장 맞춤 케어 마사지 | 수마루`,
-    `${locationPrefix} 명품 스웨디시 힐링 출장 방문 마사지 테라피 - 수마루`,
-    `${locationPrefix} 체형 맞춤형 출장 전신 바디 마사지 · 수마루`,
-    `${locationPrefix} 심야 24시 신속 출장 방문 마사지 안내 | 수마루`,
-    `${locationPrefix} 출장 전문 테라피스트 1:1 방문 마사지 케어 - 수마루`,
-    `${locationPrefix} 정통 스트레칭 출장 타이 바디 마사지 · 수마루`,
-    `${locationPrefix} 하이엔드 출장 감성 힐링 마사지 테라피 | 수마루`,
-    `${locationPrefix} 출장 VVIP 스페셜 풀케어 마사지 - 수마루`,
-    `${locationPrefix} 출장 전신 피로회복 맞춤형 방문 마사지 테라피 · 수마루`,
-    `${locationPrefix} 안심 출장 방문 릴렉싱 케어 마사지 | 수마루`,
-    `${locationPrefix} 천연 에센셜 오일 출장 바디 마사지 - 수마루`,
-    `${locationPrefix} 출장 시그니처 웰니스 바디 테라피 및 마사지 · 수마루`
-  ];
+  const seedString = locationPrefix + shop.name + shopId + "sumaru_dong_shop_seo";
+  const charSum = seedString.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  
+  const modIndex = charSum % modifiersPool.length;
+  const serviceIndex = (charSum * 3) % serviceTypesPool.length;
+  const descIndex = (charSum * 7) % descriptionsPool.length;
 
-  const descriptionVariants = [
-    `${locationPrefix} 24시 신속 방문 타이 마사지 전문 제휴 샵. 출장 서비스와 선입금 없는 100% 후불제로 안심하고 마사지를 이용하세요.`,
-    `${locationPrefix} 전지역 아로마 테라피 제휴 안내. 출장 마사지로 최고급 천연 오일과 함께 전신 피로를 부드럽게 풀어드립니다.`,
-    `${locationPrefix} 맞춤형 릴렉스 마사지 솔루션. 출장 방문을 통해 숙련된 테라피스트의 손길로 지친 일상의 마사지 활력을 되찾아보세요.`,
-    `${locationPrefix} 스웨디시 방문 케어 예약 가이드. 프라이빗 출장 공간에서 온전한 쉼과 마사지 휴식을 선사하는 프리미엄 샵.`,
-    `${locationPrefix} 방문 힐링 전신 마사지 프로그램. 정직한 정찰제 출장 요금과 신속한 25분 마사지 배차 시스템을 제공합니다.`,
-    `${locationPrefix} 딥티슈 피로회복 마사지 안내. 출장 서비스를 통해 굳은 근육을 시원하게 이완시키는 전문 마사지 바디케어.`,
-    `${locationPrefix} 내 공간에서 편안하게 누리는 홈케어 방문 바디 마사지. 출장 전문 제휴처에서 마사지를 확인하세요.`,
-    `${locationPrefix} 1:1 커스텀 릴렉스 테라피 제휴처. 청결하고 쾌적한 출장 방문 마사지 힐링 서비스를 약속드립니다.`,
-    `${locationPrefix} 건식 스트레칭 및 아로마 복합 마사지 코스 안내. 투명한 출장 요금과 친절한 마사지 상담 상시 대기.`,
-    `${locationPrefix} 프리미엄 감성 출장 방문 마사지 24시간 안내. 정성스러운 바디 밸런스 케어를 경험해 보세요.`,
-    `${locationPrefix} 순환 케어 중심의 방문 마사지 프로그램. 출장 서비스와 함께 림프 흐름을 돕는 체계적인 마사지 관리.`,
-    `${locationPrefix} 스트레스 해소에 특화된 힐링 테라피. 출장 방문으로 지친 심신에 마사지 활력을 불어넣는 전문 힐러.`,
-    `${locationPrefix} 프라이빗 1인 맞춤 방문 마사지. 출장으로 이동의 번거로움 없이 편안한 마사지 휴식 시간을 누려보세요.`,
-    `${locationPrefix} 바디 밸런스 회복 제휴샵. 철저한 위생 관리와 품격 있는 출장 마사지 서비스를 제공합니다.`,
-    `${locationPrefix} 안심 후불 결제 시스템으로 믿고 부르는 전신 마사지 바디케어. 출장 예약금이나 선입금을 요구하지 않습니다.`,
-    `${locationPrefix} 은은한 향기와 함께하는 아로마 방문 테라피. 출장 관리사의 디테일한 손길과 마사지를 경험하세요.`,
-    `${locationPrefix} 딥릴렉스 테라피로 피로를 날려주는 마사지. 신속하고 안전한 출장 방문 서비스를 제공합니다.`,
-    `${locationPrefix} 소프트한 감성 터치로 힐링을 드리는 방문 마사지. 출장 서비스로 지친 하루 끝 완벽한 마사지 릴렉싱.`,
-    `${locationPrefix} 쾌적하고 안심할 수 있는 출장 마사지 서비스. 정성을 다해 방문 마사지를 케어해 드립니다.`,
-    `${locationPrefix} 최고급 명품 스웨디시 방문 테라피 가이드. 감미로운 터치와 포근한 마사지 휴식의 만남.`,
-    `${locationPrefix} 고객 체형에 맞춘 커스텀 방문 마사지. 출장 전문으로 뭉친 부위를 정확히 파악하여 마사지로 풀어드립니다.`,
-    `${locationPrefix} 심야 시간에도 신속하게 달려가는 24시 방문 마사지. 수도권 전지역 빠른 출장 도착 보장.`,
-    `${locationPrefix} 베테랑 전문 테라피스트의 품격 있는 1:1 출장 방문 마사지 케어 서비스.`,
-    `${locationPrefix} 뻐근한 몸을 시원하게 늘려주는 정통 스트레칭 타이 마사지. 출장으로 마사지 활력 충전 완료.`,
-    `${locationPrefix} 하이엔드 감성 힐링 방문 테라피 안내. 섬세한 출장 테크닉으로 전신 마사지 긴장을 완벽 해소합니다.`,
-    `${locationPrefix} VVIP 전신 올인원 방문 마사지 코스. 출장을 통해 타이와 아로마를 동시에 누리는 프리미엄 마사지 패키지.`,
-    `${locationPrefix} 묵은 피로를 말끔히 비워내는 힐링 방문 마사지. 내 집 출장으로 편안하게 즐기는 고품격 마사지 스파.`,
-    `${locationPrefix} 안심 방문 릴렉싱 케어 제휴처. 출장 마사지 친절하고 정직한 서비스 제공.`,
-    `${locationPrefix} 천연 아로마 에센셜 오일로 피부까지 케어하는 프리미엄 출장 마사지 프로그램.`,
-    `${locationPrefix} 일상의 품격을 높여주는 시그니처 웰니스 테라피 마사지. 언제 어디서나 편안하게 출장 예약하세요.`
-  ];
+  const selectedModifier = modifiersPool[modIndex];
+  const selectedService = serviceTypesPool[serviceIndex];
+  const selectedDesc = descriptionsPool[descIndex];
 
-  const formattedTitle = titleVariants[variantIndex];
-  const formattedDesc = descriptionVariants[variantIndex];
+  // 🌟 샵 이름 및 사이트 이름 제외, '출장'과 '마사지' 분산 조합 메타 태그
+  const formattedTitle = `${locationPrefix} ${selectedModifier} 제휴점의 ${selectedService}`;
+  const formattedDesc = `${locationPrefix} 맞춤형 힐링 네트워크. ${selectedModifier} 진행되는 ${selectedService}. ${selectedDesc}`;
 
   return {
     metadataBase: new URL("https://sumaru.netlify.app"),
@@ -272,7 +293,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       `${locationPrefix} 웰니스 마사지`,
       `${locationPrefix} 프라이빗 마사지`,
       `${locationPrefix} 맞춤 마사지`,
-      `${locationPrefix} 방문 마사지`,
+      `${locationPrefix} 출장 마사지`,
       `${locationPrefix} 24시 마사지`,
       "수마루"
     ],
