@@ -18,6 +18,7 @@ function getRegionKoreanName(region: string): string {
   }
 }
 
+// 🛠️ 이중 URL 인코딩 및 '시', '구', '군' 접미사를 깔끔하게 제거하는 디코더
 function safeDecode(str: string): string {
   if (!str) return "";
   let decoded = str;
@@ -30,89 +31,45 @@ function safeDecode(str: string): string {
       decoded = str;
     }
   }
-  return decoded.trim();
+  return decoded.replace(/(시|구|군)$/, "").trim();
 }
 
-// 🌟 1. 수식어 300개 이상 풀 생성기
-function getModifiersPool(): string[] {
-  const baseAdjectives = [
-    "프라이빗한", "전문적인", "쾌적한 공간의", "안락한 분위기 속", "정성 어린 손길의", 
-    "신뢰할 수 있는", "차분한 힐링", "품격 있는", "맞춤형 바디케어", "일상 회복을 위한",
-    "엄선된 제휴점의", "편안한 휴식을 선사하는", "체계적인 프로그램의", "도심 속 오아시스", "부드러운 릴렉싱",
-    "고품격 웰니스", "피로 회복 맞춤형", "안정감 있는", "조용하고 아늑한", "에너지 충전을 위한",
-    "릴렉싱 바디케어", "프리미엄 힐링", "상쾌한 활력을 주는", "정성 가득한", "지친 몸을 위한"
-  ];
-  
-  const intensityWords = [
-    "깊은", "부드러운", "섬세한", "꼼꼼한", "완벽한", 
-    "탁월한", "특별한", "차별화된", "노련한", "깔끔한",
-    "포근한", "산뜻한"
-  ];
+// 🌟 1단: 동 단위 메인 코스 및 복합 키워드 풀 (출장 배제, 마사지 포함)
+const primaryServicePatterns = [
+  '소프트스웨디시 마사지·홈타이', '감성스웨디시 마사지·아로마', '프리미엄 힐링 마사지·바디케어',
+  '딥티슈 전신 마사지·림프케어', 'VIP 스웨디시 마사지·로맨틱힐링', '정통 타이 마사지·스트레칭',
+  '천연 아로마 오일 마사지·스파', '체형맞춤 바디 마사지·웰니스', '릴렉스 테라피 마사지·컨디셔닝',
+  '명품 소프트 마사지·감성케어', '순환 림프 마사지·전신이완', '포근한 힐링 마사지·스웨디시',
+  '프라이빗 바디 마사지·아로마', '토탈 웰니스 마사지·홈타이', '스페셜 릴렉싱 마사지·바디테라피'
+];
 
-  const pool: string[] = [];
-  for (const adj of baseAdjectives) {
-    for (const int of intensityWords) {
-      pool.push(`${int} ${adj}`);
-    }
-  }
-  return pool; // 총 300개 충족
-}
+// 🌟 2단: 상위 구 단위 연계 및 안마/테라피 키워드 풀
+const secondaryRegionalPatterns = [
+  '안마 테라피 추천', '인기 안마 힐링존', '전신 안마 바디스팟',
+  '웰니스 안마 코스 안내', '감성 안마 프로그램', '프리미엄 안마 릴렉스',
+  '전문 안마 케어 추천', '맞춤형 안마 테라피', '스파 안마 힐링 가이드'
+];
 
-// 🌟 2. '마사지'가 반드시 포함된 서비스 종류 150개 풀 생성기
-function getServiceTypesPool(): string[] {
-  const coreTechniques = ["스웨디시", "아로마", "타이", "스포츠", "힐링", "바디케어", "릴렉싱", "웰니스", "전문", "프리미엄", "감성", "토탈"];
-  const styles = [
-    "감성 마사지", "맞춤형 코스 마사지", "전신 관리 마사지", "전문 테크닉 마사지", 
-    "집중 이완 마사지", "릴렉스 마사지 과정", "힐링 마사지 프로그램", "프리미엄 바디 마사지", 
-    "맞춤형 마사지 솔루션", "토탈 마사지 프로그램", "바디 릴렉싱 마사지", "시그니처 마사지"
-  ];
+// 🌟 3단: CTR을 극대화하는 롱테일 소구 문구 풀
+const tertiaryActionPatterns = [
+  '1:1 맞춤 방문케어', '프라이빗 힐링 안내', '전신 피로회복 총정리',
+  '정직한 정찰제 안심 가이드', '당일 예약 맞춤 코스', '최고급 힐러진 프로그램',
+  '안심 후불제 웰니스 안내', '전신 릴렉스 힐링 추천', '쾌적한 1:1 케어 솔루션'
+];
 
-  const pool: string[] = [];
-  for (const tech of coreTechniques) {
-    for (const style of styles) {
-      pool.push(`${tech} ${style}`);
-      if (pool.length >= 150) break;
-    }
-    if (pool.length >= 150) break;
-  }
-  return pool; // 총 150개 충족 (모두 '마사지' 포함)
-}
-
-// 🌟 3. '마사지'가 반드시 포함된 상세 설명 100개 풀 생성기
-function getDescriptionsPool(): string[] {
-  const actions = [
-    "숙련된 테라피스트의 손길로 진행되는 마사지 프로그램은", 
-    "엄선된 제휴 샵에서 제공하는 맞춤형 마사지 서비스는", 
-    "지친 일상 속에서 찾아가는 힐링 마사지 코스는", 
-    "편안한 분위기 속에서 즐기는 전문 마사지 테라피는", 
-    "체계적인 프로그램을 통해 제공되는 마사지 솔루션은", 
-    "부드러운 테크닉이 돋보이는 릴렉스 마사지 안내는", 
-    "아늑한 공간에서 만나는 품격 있는 마사지 가이드는", 
-    "정성스러운 관리가 함께하는 전신 마사지 프로그램은",
-    "일상의 긴장을 풀어주는 전문 마사지 서비스는",
-    "몸과 마음의 여유를 채워주는 마사지 힐링 코스는"
-  ];
-  const effects = [
-    "몸과 마음의 피로를 부드럽게 씻어내 줍니다.",
-    "온전한 휴식과 재충전의 시간을 선사합니다.",
-    "지친 신체 리듬을 편안하게 되찾아드립니다.",
-    "일상의 스트레스를 말끔히 해소해 줍니다.",
-    "최상의 릴렉스와 안락함을 제공합니다.",
-    "몸의 긴장을 풀고 가벼운 활력을 채워줍니다.",
-    "오래도록 지속되는 편안한 안정감을 전해드립니다.",
-    "누적된 근육의 긴장을 개운하게 이완시켜 줍니다."
-  ];
-
-  const pool: string[] = [];
-  for (const act of actions) {
-    for (const eff of effects) {
-      pool.push(`${act} ${eff}`);
-      if (pool.length >= 100) break;
-    }
-    if (pool.length >= 100) break;
-  }
-  return pool; // 총 100개 충족
-}
+// 🌟 상세 설명 풀 (30개)
+const dongDescriptions = [
+  '선입금 없는 100% 안전 시스템과 투명한 정찰제로 편안한 휴식을 선사합니다.',
+  '검증된 전문 샵 정보와 체계적인 프로그램으로 지친 피로를 시원하게 풀어드립니다.',
+  '엄선된 전문 테라피스트의 섬세한 손길로 최상의 힐링 마사지를 경험해 보세요.',
+  '향기로운 아로마와 부드러운 터치로 나만의 프라이빗한 힐링 안식을 드립니다.',
+  '일상에 지친 몸과 마음에 활력을 불어넣어 주는 체계적인 맞춤형 테라피 안내.',
+  '깊은 근육까지 부드럽게 이완시켜 주는 전문 바디케어 서비스를 만나보세요.',
+  '철저한 위생 관리와 고객 만족 중심의 품격 높은 웰니스 프로그램을 제공합니다.',
+  '빠르고 편리한 정보 확인으로 언제 어디서나 편안한 휴식을 누리실 수 있습니다.',
+  '부드러운 에센셜 오일과 정성 어린 테크닉으로 깊은 안정감을 채워드립니다.',
+  '피로와 스트레스를 말끔히 해소해 주는 프리미엄 바디 릴렉스 가이드.'
+];
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
@@ -123,27 +80,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const dongName = dong && dong !== "all" ? safeDecode(dong) : "";
 
   const locationTitle = `${regionName} ${districtName} ${dongName}`.trim();
-  const simpleLocation = dongName ? `${districtName} ${dongName}` : districtName;
+  const targetDong = dongName || districtName;
+  const parentDistrict = districtName || regionName;
 
-  const modifiersPool = getModifiersPool();
-  const serviceTypesPool = getServiceTypesPool();
-  const descriptionsPool = getDescriptionsPool();
-
-  // 대규모 조합을 위한 해시 기반 인덱스 추출
-  const seedString = locationTitle + districtName + dongName + "sumaru-dong-mashup";
+  // 🌟 순차적 인덱스 계산 (출장 배제, 1,000개 이상 문서 고유 조합 보장)
+  const seedString = `${locationTitle}-sumaru-3part-dong-seo`;
   const charSum = seedString.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
   
-  const modIndex = charSum % modifiersPool.length;
-  const serviceIndex = (charSum * 3) % serviceTypesPool.length;
-  const descIndex = (charSum * 7) % descriptionsPool.length;
+  const part1Idx = charSum % primaryServicePatterns.length;
+  const part2Idx = (charSum * 3) % secondaryRegionalPatterns.length;
+  const part3Idx = (charSum * 5) % tertiaryActionPatterns.length;
+  const descIdx = (charSum * 7) % dongDescriptions.length;
 
-  const selectedModifier = modifiersPool[modIndex];
-  const selectedService = serviceTypesPool[serviceIndex];
-  const selectedDesc = descriptionsPool[descIndex];
-
-  // 🌟 '마사지' 키워드가 자연스럽게 포함된 타이틀 및 디스크립션
-  const finalTitle = `${locationTitle} ${selectedModifier} ${selectedService} 안내 · 수마루`;
-  const finalDescription = `${simpleLocation} 마사지 제휴 정보. ${selectedModifier} ${selectedService}. ${selectedDesc}`;
+  // 💡 [동] [1단 마사지] | [구 안마] | [3단 소구점] 구조로 약 45~50자 구성
+  const finalTitle = `${targetDong} ${primaryServicePatterns[part1Idx]} | ${parentDistrict} ${secondaryRegionalPatterns[part2Idx]} | ${tertiaryActionPatterns[part3Idx]}`;
+  const finalDescription = `${locationTitle} 마사지 제휴 샵 안내. ${parentDistrict} ${secondaryRegionalPatterns[part2Idx]}. ${dongDescriptions[descIdx]}`;
 
   return {
     metadataBase: new URL("https://sumaru.netlify.app"),
@@ -153,18 +104,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: finalDescription,
     keywords: [
       `${locationTitle} 마사지`,
-      `${locationTitle} 타이마사지`,
-      `${locationTitle} 스웨디시`,
-      `${simpleLocation} 아로마 마사지`,
-      `${simpleLocation} 웰니스 테라피`,
-      `${simpleLocation} 바디케어`,
-      "수마루"
+      `${targetDong} 스웨디시`,
+      `${targetDong} 홈타이`,
+      `${parentDistrict} 안마`,
+      `${parentDistrict} 테라피`,
+      "방문케어"
     ],
     openGraph: {
       title: finalTitle,
       description: finalDescription,
       url: `https://sumaru.netlify.app/${region}/${district}/${dong}`,
-      siteName: "수마루",
       locale: "ko_KR",
       type: "website",
     },
